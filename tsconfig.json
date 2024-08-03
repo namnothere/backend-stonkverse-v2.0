@@ -13,7 +13,7 @@
     "incremental": true,
     "declaration": true,
     "newLine": "lf",
-    "strict": true,
+    "strictNullChecks": false,
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     // "exactOptionalPropertyTypes": true,
