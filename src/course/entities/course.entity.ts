@@ -1,8 +1,9 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, CreateDateColumn, UpdateDateColumn, ManyToMany } from "typeorm";
-import { CourseData } from "./course-data.entity";
-import { Comment } from "./comment.entity";
-import { User } from "../../user/entities";
-import { Category } from "../../layout/entities";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, CreateDateColumn, UpdateDateColumn, ManyToMany } from 'typeorm';
+
+import { Comment } from './comment.entity';
+import { CourseData } from './course-data.entity';
+import { Category } from '../../layout/entities';
+import { User } from '../../user/entities';
 
 @Entity({ name: 'course', schema: process.env.DB_SCHEMA || 'public' })
 export class Course {

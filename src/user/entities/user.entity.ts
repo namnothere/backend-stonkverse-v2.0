@@ -2,7 +2,7 @@ import { IsEmail } from 'class-validator';
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToOne, OneToMany, ManyToMany } from 'typeorm';
 
 import { Avatar } from './avatar.entity';
-import { Comment, Course } from '../../course/entities';
+import { Comment, Course, AnswerQuiz } from '../../course/entities';
 import { LearningProgress } from '../../learningprogress/entities';
 import { Notification } from '../../notification/entities';
 
@@ -42,10 +42,10 @@ export class User {
   @Column('boolean', { default: false })
   isActive: boolean;
 
-  @ManyToMany(() => Course, course => course.users)
+  @ManyToMany(() => Course, (course) => course.users)
   courses: Course[];
 
-  @OneToMany(() => LearningProgress, learningProgress => learningProgress.user)
+  @OneToMany(() => LearningProgress, (learningProgress) => learningProgress.user)
   learningProgress: LearningProgress[];
 
   @CreateDateColumn()
@@ -54,11 +54,14 @@ export class User {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  @OneToMany(() => Comment, comment => comment.user)
+  @OneToMany(() => Comment, (comment) => comment.user)
   comments: Comment[];
 
-  @OneToMany(() => Notification, notification => notification.user)
+  @OneToMany(() => Notification, (notification) => notification.user)
   notifications: Notification[];
+
+  @OneToMany(() => AnswerQuiz, (answerQuiz) => answerQuiz.user)
+  answers: AnswerQuiz[];
 
   constructor(partial: Partial<User>) {
     Object.assign(this, partial);

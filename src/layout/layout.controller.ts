@@ -1,7 +1,8 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { LayoutService } from './layout.service';
+
 import { CreateLayoutDto } from './dto/create-layout.dto';
 import { UpdateLayoutDto } from './dto/update-layout.dto';
+import { LayoutService } from './layout.service';
 
 @Controller('layout')
 export class LayoutController {

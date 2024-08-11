@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
-import { LearningprogressService } from './learningprogress.service';
+
 import { LearningprogressController } from './learningprogress.controller';
+import { LearningprogressService } from './learningprogress.service';
 
 @Module({
   controllers: [LearningprogressController],
