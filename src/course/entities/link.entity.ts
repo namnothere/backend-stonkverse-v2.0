@@ -1,4 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+
 import { CourseData } from './course-data.entity';
 
 @Entity({ name: 'link', schema: process.env.DB_SCHEMA || 'public' })

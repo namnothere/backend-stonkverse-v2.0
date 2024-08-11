@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+
 import { CreateContactDto } from './dtos/create-contact.dto';
 import { UpdateContactDto } from './dtos/update-contact.dto';
 

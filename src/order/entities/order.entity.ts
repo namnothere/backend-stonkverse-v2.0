@@ -1,13 +1,7 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
-  ManyToOne,
-} from 'typeorm';
-import { User } from '../../user/entities';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToOne } from 'typeorm';
+
 import { Course } from '../../course/entities';
+import { User } from '../../user/entities';
 
 @Entity({ name: 'order', schema: process.env.DB_SCHEMA || 'public' })
 export class Order {

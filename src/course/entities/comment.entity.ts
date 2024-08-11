@@ -1,15 +1,8 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  ManyToOne,
-  OneToMany,
-  CreateDateColumn,
-  UpdateDateColumn,
-} from 'typeorm';
-import { User } from '../../user/entities';
-import { Course } from './course.entity';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+
 import { CourseData } from './course-data.entity';
+import { Course } from './course.entity';
+import { User } from '../../user/entities';
 
 export enum COMMENT_TYPE {
   REVIEW = 'REVIEW',
@@ -51,7 +44,7 @@ export class Comment {
   @Column('text', { name: 'content', nullable: true })
   content: string;
 
-  @Column('int', {name: 'rating', default: 0 })
+  @Column('int', { name: 'rating', default: 0 })
   rating: number;
 
   @CreateDateColumn()

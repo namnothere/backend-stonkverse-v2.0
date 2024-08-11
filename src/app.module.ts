@@ -9,14 +9,14 @@ import { AuthModule } from './auth';
 import { BaseModule } from './base';
 import { CommonModule, ExceptionsFilter } from './common';
 import { configuration, loggerOptions } from './config';
-import { SampleModule as DebugSampleModule } from './debug';
-import { UserModule } from './user/user.module';
-import { CourseModule } from './course/course.module';
-import { LearningprogressModule } from './learningprogress/learningprogress.module';
 import { ContactModule } from './contact/contact.module';
+import { CourseModule } from './course/course.module';
+import { SampleModule as DebugSampleModule } from './debug';
+import { LayoutModule } from './layout/layout.module';
+import { LearningprogressModule } from './learningprogress/learningprogress.module';
 import { NotificationModule } from './notification/notification.module';
 import { OrderModule } from './order/order.module';
-import { LayoutModule } from './layout/layout.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [

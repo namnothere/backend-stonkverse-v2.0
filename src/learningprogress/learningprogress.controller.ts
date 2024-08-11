@@ -1,7 +1,8 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { LearningprogressService } from './learningprogress.service';
+
 import { CreateLearningprogressDto } from './dtos/create-learningprogress.dto';
 import { UpdateLearningprogressDto } from './dtos/update-learningprogress.dto';
+import { LearningprogressService } from './learningprogress.service';
 
 @Controller('learningprogress')
 export class LearningprogressController {

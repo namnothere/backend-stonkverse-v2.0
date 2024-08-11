@@ -1,13 +1,8 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  OneToMany,
-  ManyToOne,
-} from 'typeorm';
-import { FaqItem } from './faq-item.entity';
-import { Category } from './category.entity';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOne } from 'typeorm';
+
 import { BannerImage } from './banner-image.entity';
+import { Category } from './category.entity';
+import { FaqItem } from './faq-item.entity';
 
 export enum LAYOUT_TYPE {
   FAQ = 'FAQ',
