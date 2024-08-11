@@ -1,7 +1,4 @@
-import {
-  UserAccessTokenClaims,
-  UserAccessTokenClaimsAdmin,
-} from '../../auth/dtos';
+import { UserAccessTokenClaims, UserAccessTokenClaimsAdmin } from '../../auth/dtos';
 
 export class RequestContext {
   public requestID: string | undefined;

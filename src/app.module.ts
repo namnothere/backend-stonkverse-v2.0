@@ -1,6 +1,6 @@
 import { Module, ValidationPipe } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { APP_FILTER, APP_PIPE, RouterModule } from '@nestjs/core';
+import { APP_FILTER, APP_PIPE } from '@nestjs/core';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { LoggerModule } from 'nestjs-pino';
@@ -10,8 +10,13 @@ import { BaseModule } from './base';
 import { CommonModule, ExceptionsFilter } from './common';
 import { configuration, loggerOptions } from './config';
 import { SampleModule as DebugSampleModule } from './debug';
-import { GqlModule } from './gql';
-import { SampleModule } from './sample';
+import { UserModule } from './user/user.module';
+import { CourseModule } from './course/course.module';
+import { LearningprogressModule } from './learningprogress/learningprogress.module';
+import { ContactModule } from './contact/contact.module';
+import { NotificationModule } from './notification/notification.module';
+import { OrderModule } from './order/order.module';
+import { LayoutModule } from './layout/layout.module';
 
 @Module({
   imports: [
@@ -43,21 +48,16 @@ import { SampleModule } from './sample';
     AuthModule, // Global for Middleware
     CommonModule, // Global
     BaseModule,
-    SampleModule,
-    GqlModule,
     DebugSampleModule,
     // Module Router
     // https://docs.nestjs.com/recipes/router-module
-    RouterModule.register([
-      {
-        path: 'test',
-        module: SampleModule,
-      },
-      {
-        path: 'test',
-        module: DebugSampleModule,
-      },
-    ]),
+    UserModule,
+    CourseModule,
+    LearningprogressModule,
+    ContactModule,
+    NotificationModule,
+    OrderModule,
+    LayoutModule,
   ],
   providers: [
     // Global Guard, Authentication check on all routers

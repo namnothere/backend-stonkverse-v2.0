@@ -51,5 +51,5 @@ test('POST: /jwt/refresh', async () => {
 });
 
 afterAll(async () => {
-  await app?.close();
+  await app.close();
 });
