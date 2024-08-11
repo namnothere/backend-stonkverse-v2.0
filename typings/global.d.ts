@@ -8,6 +8,7 @@ export declare global {
       NODE_ENV: string;
       PORT: string;
 
+      DB_SCHEMA: string;
       DB_TYPE: string;
       DB_HOST: string;
       DB_PORT: string;

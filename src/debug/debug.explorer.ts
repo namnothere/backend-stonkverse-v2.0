@@ -52,7 +52,7 @@ export class DebugExplorer {
     ];
 
     for (const meta of instanceMetatypes) {
-      if (typeof meta !== 'function' || this.exclude.has(meta.name) || metadata.exclude?.includes(meta)) {
+      if (typeof meta !== 'function' || this.exclude.has(meta.name) || metadata.exclude.includes(meta)) {
         continue;
       }
 
