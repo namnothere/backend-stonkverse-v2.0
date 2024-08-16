@@ -11,7 +11,6 @@ import { CommonModule, ExceptionsFilter } from './common';
 import { configuration, loggerOptions } from './config';
 import { ContactModule } from './contact/contact.module';
 import { CourseModule } from './course/course.module';
-import { SampleModule as DebugSampleModule } from './debug';
 import { LayoutModule } from './layout/layout.module';
 import { LearningprogressModule } from './learningprogress/learningprogress.module';
 import { NotificationModule } from './notification/notification.module';
@@ -48,7 +47,6 @@ import { UserModule } from './user/user.module';
     AuthModule, // Global for Middleware
     CommonModule, // Global
     BaseModule,
-    DebugSampleModule,
     // Module Router
     // https://docs.nestjs.com/recipes/router-module
     UserModule,

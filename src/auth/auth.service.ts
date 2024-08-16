@@ -3,7 +3,8 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 
 import type { JwtPayload, JwtSign, Payload } from './auth.interface';
-import { User, UserService } from '../shared/user';
+import { UserService } from '../user/providers';
+import { User } from '../user/entities';
 
 @Injectable()
 export class AuthService {
@@ -14,11 +15,12 @@ export class AuthService {
   ) {}
 
   public async validateUser(username: string, password: string): Promise<User | null> {
-    const user = await this.user.fetch(username);
+    const user = await this.user.getUser(username);
 
     if (user.password === password) {
-      const { password: pass, ...result } = user;
-      return result;
+      // const { password: pass, ...result } = user;
+      // return result;
+      return user;
     }
 
     return null;
@@ -34,7 +36,7 @@ export class AuthService {
   }
 
   public jwtSign(data: Payload): JwtSign {
-    const payload: JwtPayload = { sub: data.userId, username: data.username, roles: data.roles };
+    const payload: JwtPayload = { sub: data.userId, username: data.username, role: data.role };
 
     return {
       access_token: this.jwt.sign(payload),
@@ -49,7 +51,7 @@ export class AuthService {
         return null;
       }
 
-      return { userId: payload.sub, username: payload.username, roles: payload.roles };
+      return { userId: payload.sub, username: payload.username, role: payload.role };
     } catch {
       // Unexpected token i in JSON at position XX
       return null;

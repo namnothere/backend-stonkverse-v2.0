@@ -5,7 +5,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { AuthSerializer } from './auth.serializer';
 import { AuthService } from './auth.service';
 import { LocalStrategy, JwtStrategy, JwtVerifyStrategy } from './strategies';
-import { UserModule } from '../shared/user';
+import { UserModule } from '../user';
 
 @Global()
 @Module({

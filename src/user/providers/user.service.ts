@@ -22,4 +22,10 @@ export class UserService {
       excludeExtraneousValues: true,
     });
   }
+
+  async getUser(username: string) {
+    return this.userRepo.findOne({
+      where: { name: username },
+    });
+  }
 }
