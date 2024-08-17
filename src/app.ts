@@ -5,6 +5,7 @@ import { Logger, LoggerErrorInterceptor } from 'nestjs-pino';
 
 import { middleware } from './app.middleware';
 import { AppModule } from './app.module';
+import { json, urlencoded } from 'express';
 
 /**
  * https://docs.nestjs.com
@@ -27,7 +28,10 @@ async function bootstrap(): Promise<string> {
   // Express Middleware
   middleware(app);
 
+  app.setGlobalPrefix('api/v1');
   app.enableShutdownHooks();
+  app.use(json({ limit: '100mb' }));
+  app.use(urlencoded({ extended: true, limit: '100mb' }));
   await app.listen(process.env.PORT || 3000);
 
   return app.getUrl();

@@ -20,4 +20,6 @@ export const config = {
   hello: 'world',
   jwtSecret: process.env.JWT_SECRET,
   jwtRefreshSecret: process.env.JWT_REFRESH_SECRET,
+  expiresIn: parseInt(process.env.JWT_ACCESS_TOKEN_EXP_IN_SEC) || '7d',
+  refreshExpiresIn: parseInt(process.env.JWT_REFRESH_TOKEN_EXP_IN_SEC) || '7d',
 };

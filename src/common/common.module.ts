@@ -13,6 +13,6 @@ const services = Object.values(providers);
 export class CommonModule implements NestModule {
   // Global Middleware
   public configure(consumer: MiddlewareConsumer): void {
-    consumer.apply(LoggerContextMiddleware).forRoutes('*');
+    // consumer.apply(LoggerContextMiddleware).forRoutes('*');
   }
 }

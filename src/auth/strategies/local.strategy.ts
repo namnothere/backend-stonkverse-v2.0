@@ -1,22 +1,22 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-local';
 
-import type { Payload } from '../auth.interface';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../providers';
+import { STRATEGY_LOCAL } from '../constants';
+import { UserAccessTokenClaims } from '../dtos';
 
 @Injectable()
-export class LocalStrategy extends PassportStrategy(Strategy) {
+export class LocalStrategy extends PassportStrategy(Strategy, STRATEGY_LOCAL) {
   constructor(private auth: AuthService) {
-    super();
+    super({
+      usernameField: 'username',
+      passwordField: 'password',
+      // passReqToCallback: true,
+    });
   }
 
-  public async validate(username: string, password: string): Promise<Payload> {
-    const user = await this.auth.validateUser(username, password);
-    if (!user) {
-      throw new UnauthorizedException('NotFoundUser');
-    }
-
-    return { userId: user.id, username: user.name, role: user.role };
+  public async validate(username: string, password: string): Promise<UserAccessTokenClaims> {
+    return this.auth.validateUser(username, password);
   }
 }

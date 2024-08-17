@@ -1,5 +1,5 @@
 import { IsEmail } from 'class-validator';
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToOne, OneToMany, ManyToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToOne, OneToMany, ManyToMany, JoinColumn } from 'typeorm';
 
 import { Avatar } from './avatar.entity';
 import { Comment, Course, AnswerQuiz } from '../../course/entities';
@@ -20,14 +20,24 @@ export class User {
   @Column('varchar', { name: 'name' })
   name: string;
 
-  @Column('varchar', { name: 'username' })
+  @Column('varchar', { name: 'email' })
   @IsEmail()
   email: string;
+
+  @Column('varchar', { name: 'username' })
+  username: string;
 
   @Column('varchar', { name: 'password' })
   password: string;
 
-  @OneToOne(() => Avatar, (avatar) => avatar.user)
+  @Column('varchar', { name: 'activation_code' })
+  activationCode: string;
+
+  @Column('varchar', { name: 'token', nullable: true })
+  token: string;
+
+  @OneToOne(() => Avatar, (avatar) => avatar.user, { cascade: true })
+  @JoinColumn()
   avatar: Avatar;
 
   @Column('varchar', {

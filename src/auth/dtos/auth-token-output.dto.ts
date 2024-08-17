@@ -6,6 +6,9 @@ export class UserAccessTokenClaims {
 
   @Expose()
   username: string;
+
+  @Expose()
+  role: string;
 }
 
 export class UserAccessTokenClaimsAdmin {
@@ -14,11 +17,14 @@ export class UserAccessTokenClaimsAdmin {
 
   @Expose()
   username: string;
+
+  @Expose()
+  role: string;
 }
 
 export class AuthTokenOutput {
   @Expose()
-  token: string;
+  accessToken: string;
 
   @Expose()
   refreshToken: string;
