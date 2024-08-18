@@ -17,7 +17,7 @@ export const MESSAGES = {
 
   ACTIVATION_CODE_INCORRECT: 'activation code incorrect',
   INCORRECT_PASSWORD: 'incorrect password',
-  
+
   USER_NOT_VERIFIED: 'user not verified',
   USER_ALREADY_VERIFIED: 'user already verified',
 };

@@ -1,14 +1,11 @@
-import {
-  ExecutionContext,
-  Injectable,
-  UnauthorizedException,
-} from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
-import { STRATEGY_JWT_AUTH } from '../constants';
+import { ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
+import { AuthGuard } from '@nestjs/passport';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from '../../user/entities';
 import { Repository } from 'typeorm';
+
+import { User } from '../../user/entities';
+import { STRATEGY_JWT_AUTH } from '../constants';
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard(STRATEGY_JWT_AUTH) {
@@ -21,10 +18,7 @@ export class JwtAuthGuard extends AuthGuard(STRATEGY_JWT_AUTH) {
   }
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const isPublic = this.reflector.get<boolean>(
-      'isPublic',
-      context.getHandler(),
-    );
+    const isPublic = this.reflector.get<boolean>('isPublic', context.getHandler());
     if (isPublic) return true;
     // Add your custom authentication logic here
     // for example, call super.logIn(request) to establish a session.

@@ -1,14 +1,14 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { hash, compare } from 'bcryptjs';
 import { plainToClass } from 'class-transformer';
+import { BaseApiResponse } from 'src/shared/dtos';
 import { Repository } from 'typeorm';
 
+import { CloudinaryService } from '../../cloudinary/providers';
+import { MESSAGES, RESULT_STATUS } from '../../shared/constants';
 import { UserProfileOutput, UserUpdateProfileInput } from '../dtos';
 import { Avatar, User } from '../entities';
-import { MESSAGES, RESULT_STATUS } from '../../shared/constants';
-import { CloudinaryService } from '../../cloudinary/providers';
-import { BaseApiResponse } from 'src/shared/dtos';
-import { hash, compare } from 'bcryptjs';
 
 @Injectable()
 export class UserService {
@@ -17,17 +17,22 @@ export class UserService {
     private userRepo: Repository<User>,
     @InjectRepository(Avatar)
     private avatarRepo: Repository<Avatar>,
-    private cloudinaryService: CloudinaryService
+    private cloudinaryService: CloudinaryService,
   ) {}
 
-  async getProfile(userId: string): Promise<UserProfileOutput> {
-    const user = this.userRepo.findOne({
+  async getProfile(userId: string): Promise<BaseApiResponse<UserProfileOutput>> {
+    const user = await this.userRepo.findOne({
       where: { id: userId },
     });
 
-    return plainToClass(UserProfileOutput, user, {
+    const output = plainToClass(UserProfileOutput, user, {
       excludeExtraneousValues: true,
     });
+
+    return {
+      status: RESULT_STATUS.SUCCEED,
+      data: output,
+    };
   }
 
   async getUser(username: string) {
@@ -53,7 +58,7 @@ export class UserService {
         width: 150,
       });
       const avatar = new Avatar({
-        user
+        user,
       });
 
       avatar.public_id = myCloud.public_id;
@@ -80,9 +85,12 @@ export class UserService {
       updated.password = hash(input.newPassword);
     }
 
-    await this.userRepo.update({ id: userId }, {
-      ...updated
-    });
+    await this.userRepo.update(
+      { id: userId },
+      {
+        ...updated,
+      },
+    );
 
     const output = plainToClass(UserProfileOutput, user, {
       excludeExtraneousValues: true,
@@ -91,6 +99,6 @@ export class UserService {
     return {
       data: output,
       status: RESULT_STATUS.SUCCEED,
-    }
+    };
   }
 }

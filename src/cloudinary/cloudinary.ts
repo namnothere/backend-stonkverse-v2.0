@@ -1,4 +1,5 @@
 import { v2 } from 'cloudinary';
+
 import { CLOUDINARY } from '../shared/constants';
 
 export const CloudinaryProvider = {

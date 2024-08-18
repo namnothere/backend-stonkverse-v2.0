@@ -1,18 +1,19 @@
 import { BadRequestException, ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-
-import type { JwtPayload, JwtSign, Payload } from '../interfaces';
-import { User } from '../../user/entities';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ILike, Repository } from 'typeorm';
-import { ActivateInput, AuthTokenOutput, RegisterInput, RegisterOutput, UserAccessTokenClaims } from '../dtos';
-import { MESSAGES, RESULT_STATUS } from '../../shared/constants';
-import { plainToClass } from 'class-transformer';
 import { hash, compare } from 'bcryptjs';
-import { makeId } from 'src/shared/utils';
+import { plainToClass } from 'class-transformer';
 import { BaseApiResponse } from 'src/shared/dtos';
+import { makeId } from 'src/shared/utils';
+import { ILike, Repository } from 'typeorm';
+
+import { MESSAGES, RESULT_STATUS } from '../../shared/constants';
 import { MailService } from '../../shared/mail';
+import { User } from '../../user/entities';
+import { ActivateInput, AuthTokenOutput, RegisterInput, RegisterOutput, UserAccessTokenClaims } from '../dtos';
+import type { JwtPayload, JwtSign, Payload } from '../interfaces';
+
 @Injectable()
 export class AuthService {
   constructor(
@@ -23,11 +24,8 @@ export class AuthService {
     private userRepo: Repository<User>,
   ) {}
 
-  public async validateUser(username: string, password: string): Promise<UserAccessTokenClaims>  {
-    const user = await this.userRepo.findOne({ where: [
-      { username },
-      { email: username },
-    ] });
+  public async validateUser(username: string, password: string): Promise<UserAccessTokenClaims> {
+    const user = await this.userRepo.findOne({ where: [{ username }, { email: username }] });
 
     if (!user) {
       throw new ForbiddenException({
@@ -82,10 +80,7 @@ export class AuthService {
     );
   }
 
-  async validateUsernamePassword(
-    username: string,
-    pass: string,
-  ): Promise<UserAccessTokenClaims> {
+  async validateUsernamePassword(username: string, pass: string): Promise<UserAccessTokenClaims> {
     const user = await this.userRepo.findOne({
       where: [{ username: ILike(username) }],
     });
@@ -107,7 +102,7 @@ export class AuthService {
       excludeExtraneousValues: true,
     });
   }
-  
+
   async login(userId: string): Promise<BaseApiResponse<AuthTokenOutput>> {
     const user = await this.userRepo.findOne({
       where: {
@@ -129,11 +124,8 @@ export class AuthService {
       refreshToken: this.jwtService.sign(subject, {
         expiresIn: this.configService.get('refreshExpiresIn'),
       }),
-      accessToken: this.jwtService.sign(
-        { ...payload, ...subject },
-        { expiresIn: this.configService.get('expiresIn') },
-      ),
-      user: user,
+      accessToken: this.jwtService.sign({ ...payload, ...subject }, { expiresIn: this.configService.get('expiresIn') }),
+      user,
     };
 
     await this.userRepo.update({ id: userId }, { token: authToken.accessToken });
@@ -142,7 +134,7 @@ export class AuthService {
       AuthTokenOutput,
       {
         ...authToken,
-        user: user,
+        user,
       },
       { excludeExtraneousValues: true },
     );
@@ -154,7 +146,7 @@ export class AuthService {
       message: MESSAGES.OK,
     };
   }
-  
+
   async logout(userId: string): Promise<BaseApiResponse<null>> {
     await this.userRepo.update(userId, {
       token() {
@@ -167,15 +159,10 @@ export class AuthService {
       message: MESSAGES.OK,
     };
   }
-  
-  async registerUser(
-    input: RegisterInput,
-  ): Promise<BaseApiResponse<RegisterOutput>> {
+
+  async registerUser(input: RegisterInput): Promise<BaseApiResponse<RegisterOutput>> {
     const findUserName = await this.userRepo.findOne({
-      where: [
-        { username: input.username },
-        { email: input.email },
-      ],
+      where: [{ username: input.username }, { email: input.email }],
     });
     if (findUserName) {
       throw new ForbiddenException(MESSAGES.USERNAME_ALREADY_EXIST);
@@ -191,13 +178,7 @@ export class AuthService {
     });
     const newuser = this.userRepo.create(user);
 
-    const promises = [
-      this.userRepo.save(newuser),
-      this.mailService.sendUserConfirmation(
-        newuser,
-        newuser.activationCode,
-      ),
-    ]
+    const promises = [this.userRepo.save(newuser), this.mailService.sendUserConfirmation(newuser, newuser.activationCode)];
 
     await Promise.all(promises);
 
@@ -213,7 +194,7 @@ export class AuthService {
       message: MESSAGES.OK,
     };
   }
-  
+
   async activateUser(input: ActivateInput): Promise<BaseApiResponse<null>> {
     const user = await this.userRepo.findOne({
       where: [{ username: input.username }, { email: input.username }],
@@ -237,7 +218,7 @@ export class AuthService {
       message: MESSAGES.OK,
     };
   }
-  
+
   public validateRefreshToken(userId: string, refreshToken: string): boolean {
     if (!this.jwtService.verify(refreshToken, { secret: this.configService.get('refreshSecretKey') })) {
       return false;
@@ -246,7 +227,7 @@ export class AuthService {
     const payload = this.jwtService.decode<{ sub: string }>(refreshToken);
     return payload.sub === userId;
   }
-  
+
   public jwtSign(data: UserAccessTokenClaims): JwtSign {
     const payload: JwtPayload = { sub: data.id, username: data.username, role: data.role };
 

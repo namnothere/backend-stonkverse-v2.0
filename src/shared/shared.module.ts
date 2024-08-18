@@ -1,9 +1,10 @@
 import { Global, Module } from '@nestjs/common';
-import * as providers from './providers';
+import { ConfigService } from '@nestjs/config';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { join } from 'path';
-import { ConfigService } from '@nestjs/config';
+
+import * as providers from './providers';
 
 @Global()
 @Module({
@@ -30,8 +31,7 @@ import { ConfigService } from '@nestjs/config';
         },
       }),
       inject: [ConfigService],
-    })
-
+    }),
   ],
   providers: Object.values(providers),
   exports: Object.values(providers),

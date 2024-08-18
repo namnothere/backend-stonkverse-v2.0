@@ -7,6 +7,7 @@ import { LoggerModule } from 'nestjs-pino';
 
 import { AuthModule } from './auth';
 // import { BaseModule } from './base';
+import { CloudinaryModule } from './cloudinary';
 import { CommonModule, ExceptionsFilter } from './common';
 import { configuration, loggerOptions } from './config';
 import { ContactModule } from './contact/contact.module';
@@ -16,7 +17,6 @@ import { LearningprogressModule } from './learningprogress/learningprogress.modu
 import { NotificationModule } from './notification/notification.module';
 import { OrderModule } from './order/order.module';
 import { UserModule } from './user/user.module';
-import { CloudinaryModule } from './cloudinary';
 
 @Module({
   imports: [

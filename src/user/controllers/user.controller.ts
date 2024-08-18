@@ -1,10 +1,11 @@
 import { Body, Controller, Get, Param, Patch, UseGuards } from '@nestjs/common';
+import { BaseApiResponse } from 'src/shared/dtos';
 
 import { JwtAuthGuard } from '../../auth/guards';
 import { ReqContext } from '../../shared/request-context/req-context.decorator';
 import { RequestContext } from '../../shared/request-context/request-context.dto';
+import { UserProfileOutput, UserUpdateProfileInput } from '../dtos';
 import { UserService } from '../providers';
-import { UserUpdateProfileInput } from '../dtos';
 
 @Controller('user')
 @UseGuards(JwtAuthGuard)
@@ -17,7 +18,7 @@ export class UserController {
   }
 
   @Get('profile')
-  getProfile(@ReqContext() ctx: RequestContext) {
+  getProfile(@ReqContext() ctx: RequestContext): Promise<BaseApiResponse<UserProfileOutput>> {
     return this.userService.getProfile(ctx.user.id);
   }
 

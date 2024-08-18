@@ -1,5 +1,6 @@
-import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable } from '@nestjs/common';
+import { MailerService } from '@nestjs-modules/mailer';
+
 import { User } from '../../user/entities';
 
 @Injectable()
@@ -21,6 +22,7 @@ export class MailService {
     });
     return true;
   }
+
   async sendUserConfirmation(user: User, token: string) {
     // const url = `example.com/auth/confirm?token=${token}`;
 

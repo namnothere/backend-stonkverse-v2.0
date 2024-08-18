@@ -1,21 +1,24 @@
 import { Controller, Get, Post, UseGuards, UnauthorizedException, Body } from '@nestjs/common';
+import { RESULT_STATUS } from 'src/shared/constants';
 
-import { AuthService } from '../providers';
-import { JwtAuthGuard, LocalLoginGuard } from '../guards';
-import { JwtSign } from '../interfaces';
+import { BaseApiResponse } from '../../shared/dtos';
+import { MailService } from '../../shared/mail';
 import { ReqContext } from '../../shared/request-context/req-context.decorator';
 import { RequestContext } from '../../shared/request-context/request-context.dto';
-import { BaseApiResponse } from '../../shared/dtos';
 import { ActivateInput, AuthTokenOutput, RegisterInput, RegisterOutput } from '../dtos';
-import { MailService } from '../../shared/mail';
-import { RESULT_STATUS } from 'src/shared/constants';
+import { JwtAuthGuard, LocalLoginGuard } from '../guards';
+import { JwtSign } from '../interfaces';
+import { AuthService } from '../providers';
 
 /**
  * https://docs.nestjs.com/techniques/authentication
  */
 @Controller('auth')
 export class AuthController {
-  constructor(private auth: AuthService, private mailService: MailService) {}
+  constructor(
+    private auth: AuthService,
+    private mailService: MailService,
+  ) {}
 
   /**
    * See test/e2e/local-auth.spec.ts
@@ -61,16 +64,12 @@ export class AuthController {
   }
 
   @Post('register')
-  registerUser(
-    @Body() input: RegisterInput,
-  ): Promise<BaseApiResponse<RegisterOutput>> {
+  registerUser(@Body() input: RegisterInput): Promise<BaseApiResponse<RegisterOutput>> {
     return this.auth.registerUser(input);
   }
 
   @Post('activate-user')
-  activateUser(
-    @Body() input: ActivateInput,
-  ): Promise<BaseApiResponse<RegisterOutput>> {
+  activateUser(@Body() input: ActivateInput): Promise<BaseApiResponse<RegisterOutput>> {
     return this.auth.activateUser(input);
   }
 
@@ -81,7 +80,7 @@ export class AuthController {
   }
 
   @Get('health')
-  public health(){
+  public health() {
     return {
       status: RESULT_STATUS.SUCCEED,
       error: false,
