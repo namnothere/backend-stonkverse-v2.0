@@ -1,35 +1,26 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-
+import { Controller, Get, Post, Delete, Param, Body } from '@nestjs/common';
 import { ContactService } from './contact.service';
-import { CreateContactDto } from './dtos/create-contact.dto';
-import { UpdateContactDto } from './dtos/update-contact.dto';
+import { Contact } from './entities';
+import { SendMailService } from './mailer.service';
 
-@Controller('contact')
+@Controller('contacts')
 export class ContactController {
-  constructor(private readonly contactService: ContactService) {}
+  constructor(
+    private readonly contactService: ContactService,
+  ) {}
 
   @Post()
-  create(@Body() createContactDto: CreateContactDto) {
-    return this.contactService.create(createContactDto);
+  async addNewContact(@Body() data: Partial<Contact>): Promise<Contact> {
+    return await this.contactService.create(data);
   }
 
-  @Get()
-  findAll() {
-    return this.contactService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.contactService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateContactDto: UpdateContactDto) {
-    return this.contactService.update(+id, updateContactDto);
+  @Get('get-all-contact')
+  async getAllContacts(): Promise<Contact[]> {
+    return await this.contactService.getAllContacts();
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.contactService.remove(+id);
+  async deleteContact(@Param('id') id: string): Promise<void> {
+    return await this.contactService.delete(id);
   }
 }

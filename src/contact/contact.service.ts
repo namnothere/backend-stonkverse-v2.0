@@ -1,27 +1,56 @@
-import { Injectable } from '@nestjs/common';
-
-import { CreateContactDto } from './dtos/create-contact.dto';
-import { UpdateContactDto } from './dtos/update-contact.dto';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Contact } from './entities';
+import { SendMailService } from './mailer.service';
 
 @Injectable()
 export class ContactService {
-  create(createContactDto: CreateContactDto) {
-    return 'This action adds a new contact';
+  transporter: any;
+  constructor(
+    @InjectRepository(Contact)
+    private readonly contactRepository: Repository<Contact>,
+    private readonly sendMailService: SendMailService,
+  ) {}
+
+  async create(data: Partial<Contact>): Promise<Contact> {
+    const newContact = this.contactRepository.create(data);
+    await this.contactRepository.save(newContact);
+
+    const mailData = {
+      contact: {
+        _id: newContact.id.toString().slice(0, 6),
+        email: newContact.email,
+        problem: newContact.problem,
+        explain: newContact.explain,
+      },
+    };
+
+    try {
+      await this.sendMailService.sendMail(
+        'tnbh234@gmail.com',
+        'Support Request: ' + newContact.problem,
+        './mail-template/support-request.hbs',
+        mailData,
+      );
+    } catch (error) {
+      throw new NotFoundException('Unable to send email');
+    }
+
+    return newContact;
   }
 
-  findAll() {
-    return `This action returns all contact`;
+  async getAllContacts(): Promise<Contact[]> {
+    return await this.contactRepository.find({ order: { createdAt: 'DESC' } });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} contact`;
-  }
+  async delete(id: string): Promise<void> {
+    const contact = await this.contactRepository.findOne({ where: { id } });
 
-  update(id: number, updateContactDto: UpdateContactDto) {
-    return `This action updates a #${id} contact`;
-  }
+    if (!contact) {
+      throw new NotFoundException('Contact not found');
+    }
 
-  remove(id: number) {
-    return `This action removes a #${id} contact`;
+    await this.contactRepository.delete(id);
   }
 }
