@@ -4,6 +4,8 @@
   "compilerOptions": {
     "tsConfigPath": "tsconfig.build.json",
     "deleteOutDir": true,
+    "assets": ["./shared/mail/templates/**/*"],
+    "watchAssets": true,
     "plugins": [{
       "name": "@nestjs/graphql",
       "options": { "introspectComments": true }

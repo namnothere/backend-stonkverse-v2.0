@@ -1,17 +1,17 @@
 import { Controller, Get, Post, Delete, Param, Body } from '@nestjs/common';
 import { ContactService } from './contact.service';
 import { Contact } from './entities';
-import { SendMailService } from './mailer.service';
+import { CreateContactDto } from './dtos/create-contact.dto';
 
-@Controller('contacts')
+@Controller('contact')
 export class ContactController {
   constructor(
     private readonly contactService: ContactService,
   ) {}
 
-  @Post()
-  async addNewContact(@Body() data: Partial<Contact>): Promise<Contact> {
-    return await this.contactService.create(data);
+  @Post('add')
+  async addNewContact(@Body() createContactDto: CreateContactDto): Promise<Contact> {
+    return this.contactService.create(createContactDto);
   }
 
   @Get('get-all-contact')
@@ -19,7 +19,7 @@ export class ContactController {
     return await this.contactService.getAllContacts();
   }
 
-  @Delete(':id')
+  @Delete('delete/:id')
   async deleteContact(@Param('id') id: string): Promise<void> {
     return await this.contactService.delete(id);
   }

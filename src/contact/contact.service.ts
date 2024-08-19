@@ -2,7 +2,8 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Contact } from './entities';
-import { SendMailService } from './mailer.service';
+import { MailService } from './mail.service';
+import { CreateContactDto } from './dtos/create-contact.dto';
 
 @Injectable()
 export class ContactService {
@@ -10,10 +11,10 @@ export class ContactService {
   constructor(
     @InjectRepository(Contact)
     private readonly contactRepository: Repository<Contact>,
-    private readonly sendMailService: SendMailService,
+    private readonly mailService: MailService,
   ) {}
 
-  async create(data: Partial<Contact>): Promise<Contact> {
+  async create(data: CreateContactDto): Promise<Contact> {
     const newContact = this.contactRepository.create(data);
     await this.contactRepository.save(newContact);
 
@@ -27,19 +28,19 @@ export class ContactService {
     };
 
     try {
-      await this.sendMailService.sendMail(
-        'tnbh234@gmail.com',
-        'Support Request: ' + newContact.problem,
-        './mail-template/support-request.hbs',
-        mailData,
-      );
+      await this.mailService.sendMail({
+        to: 'tnbh234@gmail.com',
+        subject: 'Support Request: ' + newContact.problem,
+        template: 'support-request.ejs',
+        context: mailData,
+      });
     } catch (error) {
       throw new NotFoundException('Unable to send email');
     }
 
     return newContact;
   }
-
+  
   async getAllContacts(): Promise<Contact[]> {
     return await this.contactRepository.find({ order: { createdAt: 'DESC' } });
   }
