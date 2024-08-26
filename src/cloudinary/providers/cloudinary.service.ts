@@ -5,7 +5,12 @@ import { CLOUDINARY } from '../../shared/constants';
 
 @Injectable()
 export class CloudinaryService {
-  constructor(@Inject(CLOUDINARY) private readonly cloudinaryInstance: typeof cloudinary) {}
+  constructor(@Inject(CLOUDINARY) private readonly cloudinaryInstance: typeof cloudinary) {
+    if (!this.cloudinaryInstance?.uploader) {
+      throw new Error('Cloudinary instance is not properly initialized');
+    }
+  }
+
   async upload(file: string, options: Record<string, any>): Promise<UploadApiResponse | UploadApiErrorResponse> {
     return this.cloudinaryInstance.uploader.upload(file, options);
   }

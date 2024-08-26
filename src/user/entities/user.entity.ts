@@ -1,20 +1,12 @@
 import { IsEmail } from 'class-validator';
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
-  OneToOne,
-  OneToMany,
-  ManyToMany,
-  JoinColumn,
-} from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToOne, OneToMany, JoinColumn } from 'typeorm';
 
 import { Avatar } from './avatar.entity';
-import { Comment, Course, AnswerQuiz } from '../../course/entities';
+import { Comment } from '../../comment/entities';
+import { AnswerQuiz } from '../../course/entities';
 import { LearningProgress } from '../../learningprogress/entities';
 import { Notification } from '../../notification/entities';
+import { RegisterCourse } from '../../register-course/entities';
 
 export enum USER_ROLE {
   ADMIN = 'ADMIN',
@@ -62,8 +54,8 @@ export class User {
   @Column('boolean', { default: false })
   isActive: boolean;
 
-  @ManyToMany(() => Course, (course) => course.users)
-  courses: Course[];
+  @OneToMany(() => RegisterCourse, (registerCourse) => registerCourse.user)
+  registeredCourses: RegisterCourse[];
 
   @OneToMany(() => LearningProgress, (learningProgress) => learningProgress.user)
   learningProgress: LearningProgress[];

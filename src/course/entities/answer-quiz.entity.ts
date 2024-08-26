@@ -1,15 +1,12 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 
-import { CourseData } from './course-data.entity';
+import { QuestionQuiz } from './question-quiz.entity';
 import { User } from '../../user/entities';
 
 @Entity({ name: 'answer_quiz', schema: process.env.DB_SCHEMA || 'public' })
 export class AnswerQuiz {
   @PrimaryGeneratedColumn('uuid')
   id: string;
-
-  @ManyToOne(() => CourseData, (courseData) => courseData.quizzes)
-  courseData: CourseData;
 
   @ManyToOne(() => User, (user) => user.answers)
   user: User;
@@ -19,6 +16,9 @@ export class AnswerQuiz {
 
   @Column('float', { name: 'score', default: 0 })
   score: number;
+
+  @ManyToOne(() => QuestionQuiz, (question) => question.answers)
+  question: QuestionQuiz;
 
   constructor(partial: Partial<AnswerQuiz>) {
     Object.assign(this, partial);

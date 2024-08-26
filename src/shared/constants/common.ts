@@ -20,6 +20,11 @@ export const MESSAGES = {
 
   USER_NOT_VERIFIED: 'user not verified',
   USER_ALREADY_VERIFIED: 'user already verified',
+
+  COURSE_NOT_FOUND: 'course not found',
+
+  USER_DOES_NOT_OWN_COURSE: 'user does not own course',
+  USER_ALREADY_OWN_COURSE: 'user already own course',
 };
 
 export const ROLES_KEY = 'roles';

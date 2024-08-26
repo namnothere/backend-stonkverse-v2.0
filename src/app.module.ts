@@ -8,6 +8,7 @@ import { LoggerModule } from 'nestjs-pino';
 import { AuthModule } from './auth';
 // import { BaseModule } from './base';
 import { CloudinaryModule } from './cloudinary';
+import { CommentModule } from './comment/comment.module';
 import { CommonModule, ExceptionsFilter } from './common';
 import { configuration, loggerOptions } from './config';
 import { ContactModule } from './contact/contact.module';
@@ -16,6 +17,7 @@ import { LayoutModule } from './layout/layout.module';
 import { LearningprogressModule } from './learningprogress/learningprogress.module';
 import { NotificationModule } from './notification/notification.module';
 import { OrderModule } from './order/order.module';
+import { RegisterCourseModule } from './register-course/register-course.module';
 import { UserModule } from './user/user.module';
 
 @Module({
@@ -58,6 +60,8 @@ import { UserModule } from './user/user.module';
     OrderModule,
     LayoutModule,
     CloudinaryModule,
+    CommentModule,
+    RegisterCourseModule,
   ],
   providers: [
     // Global Guard, Authentication check on all routers

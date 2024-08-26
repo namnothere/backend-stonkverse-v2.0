@@ -236,4 +236,27 @@ export class AuthService {
       refresh_token: this.getRefreshToken(payload.sub),
     };
   }
+
+  async resendUserConfirmation(email: string): Promise<BaseApiResponse<null>> {
+    const user = await this.userRepo.findOne({
+      where: {
+        email,
+      },
+    });
+
+    if (!user) {
+      throw new ForbiddenException(MESSAGES.USER_NOT_FOUND);
+    }
+
+    if (user.isVerified) {
+      throw new BadRequestException(MESSAGES.USER_ALREADY_VERIFIED);
+    }
+
+    await this.mailService.sendUserConfirmation(user, user.activationCode);
+    return {
+      status: RESULT_STATUS.SUCCEED,
+      data: null,
+      message: MESSAGES.OK,
+    };
+  }
 }

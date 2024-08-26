@@ -1,4 +1,4 @@
-import { IsString, IsStrongPassword, MinLength } from 'class-validator';
+import { IsString, MinLength } from 'class-validator';
 
 export class ActivateInput {
   @IsString()

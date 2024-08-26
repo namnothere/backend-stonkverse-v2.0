@@ -1,4 +1,4 @@
-import { Controller, Get, Post, UseGuards, UnauthorizedException, Body } from '@nestjs/common';
+import { Controller, Get, Post, UseGuards, UnauthorizedException, Body, Param } from '@nestjs/common';
 import { RESULT_STATUS } from 'src/shared/constants';
 
 import { BaseApiResponse } from '../../shared/dtos';
@@ -73,10 +73,14 @@ export class AuthController {
     return this.auth.activateUser(input);
   }
 
-  // @Public()
-  @Get('test-email')
-  testEmail() {
-    return this.mailService.sendUserConfirmationTest('apfallinus27@gmail.com', 'test');
+  @Get('resend-verify/:email')
+  resendVerify(@Param('email') email: string) {
+    return this.auth.resendUserConfirmation(email);
+  }
+
+  @Get('test-email/:email')
+  testEmail(@Param('email') email: string) {
+    return this.mailService.sendUserConfirmationTest(email, 'test');
   }
 
   @Get('health')
