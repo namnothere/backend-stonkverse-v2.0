@@ -1,11 +1,12 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { plainToInstance } from 'class-transformer';
 import { Repository } from 'typeorm';
+
 import { MESSAGES, RESULT_STATUS } from '../../shared/constants';
-import { Contact } from '../entities';
 import { BaseApiResponse } from '../../shared/dtos';
 import { ContactOutput } from '../dtos';
-import { plainToInstance } from 'class-transformer';
+import { Contact } from '../entities';
 
 @Injectable()
 export class ContactAdminService {
@@ -23,7 +24,7 @@ export class ContactAdminService {
     return {
       status: RESULT_STATUS.SUCCEED,
       data: output,
-    }
+    };
   }
 
   async delete(id: string): Promise<BaseApiResponse<null>> {
@@ -36,6 +37,6 @@ export class ContactAdminService {
     await this.contactRepo.softDelete(id);
     return {
       status: RESULT_STATUS.SUCCEED,
-    }
+    };
   }
 }

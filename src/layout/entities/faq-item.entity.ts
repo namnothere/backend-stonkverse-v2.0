@@ -1,4 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
+
 import { Layout } from './layout.entity';
 
 @Entity({ name: 'faq_item', schema: process.env.DB_SCHEMA || 'public' })

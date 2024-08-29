@@ -1,41 +1,38 @@
 import { Injectable } from '@nestjs/common';
-import { MailerService } from '@nestjs-modules/mailer';
-
-import { User } from '../../../user/entities';
-import { Contact } from '../../../contact/entities';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Email } from '../entities';
-import { Repository } from 'typeorm';
-import { RESULT_STATUS } from '../../../shared/constants';
-import { BaseApiResponse } from '../../../shared/dtos';
+import { MailerService } from '@nestjs-modules/mailer';
 import { plainToClass } from 'class-transformer';
-import { EmailOutput } from '../dtos';
 import { join } from 'path';
+import { Repository } from 'typeorm';
+
+import { Contact } from '../../../contact/entities';
+import { User } from '../../../user/entities';
+import { RESULT_STATUS } from '../../constants';
+import { BaseApiResponse } from '../../dtos';
+import { EmailOutput } from '../dtos';
+import { Email } from '../entities';
+
 @Injectable()
 export class MailService {
   constructor(
     @InjectRepository(Email)
     private readonly emailRepo: Repository<Email>,
-    private mailerService: MailerService
+    private mailerService: MailerService,
   ) {}
 
-  async sendMail(
-    to: string,
-    subject: string,
-    template: string,
-    context: any,
-    from?: string,
-  ) {
+  async sendMail(to: string, subject: string, template: string, context: any, from?: string) {
     const isDevelopment = process.env.NODE_ENV === 'development';
 
     if (!isDevelopment) {
-      this.mailerService.sendMail({
-        to,
-        subject,
-        template: join('..', 'templates', template),
-        context,
-        ...(from && { from })
-      }).then();
+      this.mailerService
+        .sendMail({
+          to,
+          subject,
+          template: join('..', 'templates', template),
+          context,
+          ...(from && { from }),
+        })
+        .then();
     }
 
     const contextString = JSON.stringify(context);
@@ -45,29 +42,19 @@ export class MailService {
       subject,
       template,
       context: contextString,
-      from
+      from,
     });
   }
 
   async sendUserConfirmationTest(email: string, token: string) {
     const context = { name: 'TEST', token };
-    this.sendMail(
-      email,
-      'Welcome to Stock E-Learning! Confirm your Email',
-      'activation-email',
-      context,
-    ).then();
+    this.sendMail(email, 'Welcome to Stock E-Learning! Confirm your Email', 'activation-email', context).then();
     return true;
   }
 
   async sendUserConfirmation(user: User, token: string) {
     const context = { name: user.name, token };
-    this.sendMail(
-      user.email,
-      'Welcome to Stock E-Learning! Confirm your Email',
-      'activation-email',
-      context,
-    ).then();
+    this.sendMail(user.email, 'Welcome to Stock E-Learning! Confirm your Email', 'activation-email', context).then();
     return true;
   }
 
@@ -77,12 +64,7 @@ export class MailService {
       problem: contact.problem,
       explain: contact.explain,
     };
-    this.sendMail(
-      'tnbh234@gmail.com',
-      'New Support Request Arrived',
-      'support-request',
-      context,
-    ).then();
+    this.sendMail('tnbh234@gmail.com', 'New Support Request Arrived', 'support-request', context).then();
     return true;
   }
 
@@ -105,7 +87,7 @@ export class MailService {
     return {
       status: RESULT_STATUS.SUCCEED,
       data: null,
-    }
+    };
   }
 
   // TODO: email template

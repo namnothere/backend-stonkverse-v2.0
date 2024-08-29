@@ -1,6 +1,7 @@
 import { Controller, Post, Get, Body, Query } from '@nestjs/common';
-import { LayoutService } from '../providers/layout.service';
+
 import { ChatInput, LayoutFilterInput } from '../dtos';
+import { LayoutService } from '../providers/layout.service';
 
 @Controller('layout')
 export class LayoutController {
@@ -9,6 +10,7 @@ export class LayoutController {
   filter(@Query() query: LayoutFilterInput) {
     return this.layoutService.filter(query);
   }
+
   // XEM LẠI DO SERVER T3
   @Post('chat')
   chat(@Body() input: ChatInput) {

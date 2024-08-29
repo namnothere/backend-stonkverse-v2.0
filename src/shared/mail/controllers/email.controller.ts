@@ -1,13 +1,12 @@
 import { Controller, Post, Body, Get } from '@nestjs/common';
-import { MailService } from '../providers';
-import { BaseApiResponse } from '../../../shared/dtos';
+
+import { BaseApiResponse } from '../../dtos';
 import { EmailOutput } from '../dtos';
+import { MailService } from '../providers';
 
 @Controller('email')
 export class EmailController {
-  constructor(
-    private readonly mailService: MailService,
-  ) {}
+  constructor(private readonly mailService: MailService) {}
 
   @Get()
   filter(): Promise<BaseApiResponse<EmailOutput[]>> {

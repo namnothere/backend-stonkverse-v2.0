@@ -1,19 +1,19 @@
-import { Expose } from "class-transformer";
+import { Expose } from 'class-transformer';
 
 export class ContactOutput {
-    @Expose()
-    id: string;
-    
-    @Expose()
-    email: string;
+  @Expose()
+  id: string;
 
-    @Expose()
-    problem: string;
+  @Expose()
+  email: string;
 
-    @Expose()
-    explain: string;
+  @Expose()
+  problem: string;
 
-    constructor(partial: Partial<ContactOutput>) {
-        Object.assign(this, partial);
-    }
+  @Expose()
+  explain: string;
+
+  constructor(partial: Partial<ContactOutput>) {
+    Object.assign(this, partial);
+  }
 }

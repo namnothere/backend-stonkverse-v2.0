@@ -1,28 +1,28 @@
-import { Expose } from "class-transformer";
+import { Expose } from 'class-transformer';
 
 export class EmailOutput {
-    @Expose()
-    id: string;
+  @Expose()
+  id: string;
 
-    @Expose()
-    from: string;
+  @Expose()
+  from: string;
 
-    @Expose()
-    to: string;
+  @Expose()
+  to: string;
 
-    @Expose()
-    context: string;
-    
-    @Expose()
-    subject: string;
-    
-    @Expose()
-    template: string;
-    
-    @Expose()
-    status: string;
+  @Expose()
+  context: string;
 
-    constructor(partial: Partial<EmailOutput>) {
-        Object.assign(this, partial);
-    }
+  @Expose()
+  subject: string;
+
+  @Expose()
+  template: string;
+
+  @Expose()
+  status: string;
+
+  constructor(partial: Partial<EmailOutput>) {
+    Object.assign(this, partial);
+  }
 }

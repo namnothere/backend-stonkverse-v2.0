@@ -1,9 +1,9 @@
 import { Body, Controller, Post } from '@nestjs/common';
+import { BaseApiResponse } from 'src/shared/dtos';
 
 import { Public } from '../../common';
-import { CloudinaryService } from '../providers';
 import { CloudinaryFileOutput } from '../dtos';
-import { BaseApiResponse } from 'src/shared/dtos';
+import { CloudinaryService } from '../providers';
 
 @Controller('cloudinary')
 export class CloudinaryController {

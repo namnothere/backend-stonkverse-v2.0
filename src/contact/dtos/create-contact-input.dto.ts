@@ -1,19 +1,19 @@
-import { IsEmail, IsNotEmpty, IsString } from "class-validator";
+import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateContactInput {
-    @IsEmail()
-    @IsNotEmpty()
-    email: string;
+  @IsEmail()
+  @IsNotEmpty()
+  email: string;
 
-    @IsString()
-    @IsNotEmpty()
-    problem: string;
+  @IsString()
+  @IsNotEmpty()
+  problem: string;
 
-    @IsString()
-    @IsNotEmpty()
-    explain: string;
+  @IsString()
+  @IsNotEmpty()
+  explain: string;
 
-    constructor(partial: Partial<CreateContactInput>) {
-        Object.assign(this, partial);
-    }
+  constructor(partial: Partial<CreateContactInput>) {
+    Object.assign(this, partial);
+  }
 }

@@ -1,5 +1,6 @@
-import { IsOptional, IsString, IsArray, ValidateNested, IsEnum, IsNotEmpty } from 'class-validator';
 import { Type } from 'class-transformer';
+import { IsOptional, IsString, IsArray, ValidateNested, IsEnum, IsNotEmpty } from 'class-validator';
+
 import { LAYOUT_TYPE } from '../entities';
 
 class BannerImageInput {

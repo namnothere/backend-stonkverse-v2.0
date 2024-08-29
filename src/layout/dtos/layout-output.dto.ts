@@ -1,4 +1,5 @@
 import { Expose, Type } from 'class-transformer';
+
 import { LAYOUT_TYPE } from '../entities';
 
 class BannerImageOutput {
@@ -23,7 +24,7 @@ class FaqItemOutput {
   answer: string;
 }
 
-class CategoryOutput {  
+class CategoryOutput {
   @Expose()
   id: string;
 
@@ -34,7 +35,7 @@ class CategoryOutput {
 export class LayoutOutput {
   @Expose()
   id: string;
-  
+
   @Expose()
   type: LAYOUT_TYPE;
 

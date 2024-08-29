@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToMany } from 'typeorm';
 
-import { Course } from '../../course/entities';
 import { Layout } from './layout.entity';
+import { Course } from '../../course/entities';
 
 @Entity({ name: 'category', schema: process.env.DB_SCHEMA || 'public' })
 export class Category {
@@ -14,7 +14,7 @@ export class Category {
   @ManyToMany(() => Course, (course) => course.categories)
   courses: Course[];
 
-  @ManyToMany(() => Layout, layout => layout.categories)
+  @ManyToMany(() => Layout, (layout) => layout.categories)
   layouts: Layout[];
 
   constructor(partial: Partial<Category>) {

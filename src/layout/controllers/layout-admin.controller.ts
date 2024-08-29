@@ -1,5 +1,6 @@
 import { Controller, Post, Get, Param, Body, UseGuards, Patch, Query } from '@nestjs/common';
-import { JwtAuthAdminGuard, } from '../../auth';
+
+import { JwtAuthAdminGuard } from '../../auth';
 import { CreateLayoutInput, LayoutFilterInput, UpdateLayoutInput } from '../dtos';
 import { LayoutAdminService } from '../providers';
 
@@ -12,7 +13,7 @@ export class LayoutAdminController {
   create(@Body() input: CreateLayoutInput) {
     return this.layoutService.create(input);
   }
-  
+
   // XEM LẠI
   @Patch(':id')
   update(@Param('id') id: string, @Body() input: UpdateLayoutInput) {

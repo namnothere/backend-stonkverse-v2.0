@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { BannerImage, Category, FaqItem, Layout } from './entities';
 import * as controllers from './controllers';
+import { BannerImage, Category, FaqItem, Layout } from './entities';
 import * as providers from './providers';
 import { User } from '../user/entities';
 

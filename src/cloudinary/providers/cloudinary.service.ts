@@ -1,13 +1,13 @@
 import { Inject, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { plainToClass } from 'class-transformer';
 import { UploadApiErrorResponse, UploadApiResponse, v2 as cloudinary } from 'cloudinary';
+import { Repository } from 'typeorm';
 
 import { CLOUDINARY, RESULT_STATUS } from '../../shared/constants';
-import { plainToClass } from 'class-transformer';
-import { CloudinaryFileOutput } from '../dtos';
 import { BaseApiResponse } from '../../shared/dtos';
-import { InjectRepository } from '@nestjs/typeorm';
+import { CloudinaryFileOutput } from '../dtos';
 import { CloudinaryFile } from '../entities';
-import { Repository } from 'typeorm';
 
 @Injectable()
 export class CloudinaryService {
@@ -31,7 +31,7 @@ export class CloudinaryService {
 
   async uploadFile(file: string, options: Record<string, any>): Promise<BaseApiResponse<CloudinaryFileOutput>> {
     const myCloud = await this.cloudinaryInstance.uploader.upload(file, options);
-    
+
     const cloudinaryFile = await this.cloudinaryFileRepo.save({
       url: myCloud.secure_url,
       public_id: myCloud.public_id,
@@ -39,11 +39,11 @@ export class CloudinaryService {
 
     const output = plainToClass(CloudinaryFileOutput, cloudinaryFile, {
       excludeExtraneousValues: true,
-    })
-    
+    });
+
     return {
       status: RESULT_STATUS.SUCCEED,
       data: output,
-    }
+    };
   }
 }
