@@ -1,7 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
-import { CourseData } from './course-data.entity';
-import { Course } from './course.entity';
+import { Course, CourseData } from '../../course/entities';
 import { User } from '../../user/entities';
 
 export enum COMMENT_TYPE {

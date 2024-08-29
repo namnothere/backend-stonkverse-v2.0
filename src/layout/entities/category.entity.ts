@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, JoinColumn } from 'typeorm';
 
 import { Course } from '../../course/entities';
 
@@ -11,7 +11,8 @@ export class Category {
   title: string;
 
   @ManyToMany(() => Course, (course) => course.categories)
-  courses?: Course[];
+  @JoinColumn({ name: 'courses' })
+  courses: Course[];
 
   constructor(partial: Partial<Category>) {
     Object.assign(this, partial);
