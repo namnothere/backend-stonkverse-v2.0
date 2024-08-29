@@ -3,9 +3,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { MESSAGES, RESULT_STATUS } from '../../shared/constants';
 import { Contact } from '../entities';
-import { BaseApiResponse } from 'src/shared/dtos';
+import { BaseApiResponse } from '../../shared/dtos';
 import { ContactOutput } from '../dtos';
-import { plainToClass } from 'class-transformer';
+import { plainToInstance } from 'class-transformer';
 
 @Injectable()
 export class ContactAdminService {
@@ -16,7 +16,7 @@ export class ContactAdminService {
 
   async filter(): Promise<BaseApiResponse<ContactOutput[]>> {
     const contacts = await this.contactRepo.find();
-    const output = plainToClass(ContactOutput, contacts, {
+    const output = plainToInstance(ContactOutput, contacts, {
       excludeExtraneousValues: true,
     });
 

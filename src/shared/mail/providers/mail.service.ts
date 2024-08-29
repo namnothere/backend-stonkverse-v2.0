@@ -34,7 +34,7 @@ export class MailService {
         subject,
         template: join('..', 'templates', template),
         context,
-        from
+        ...(from && { from })
       }).then();
     }
 
@@ -56,7 +56,7 @@ export class MailService {
       'Welcome to Stock E-Learning! Confirm your Email',
       'activation-email',
       context,
-    );
+    ).then();
     return true;
   }
 
@@ -67,7 +67,7 @@ export class MailService {
       'Welcome to Stock E-Learning! Confirm your Email',
       'activation-email',
       context,
-    );
+    ).then();
     return true;
   }
 
@@ -82,7 +82,7 @@ export class MailService {
       'New Support Request Arrived',
       'support-request',
       context,
-    );
+    ).then();
     return true;
   }
 
