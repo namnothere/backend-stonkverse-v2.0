@@ -45,13 +45,13 @@ export class Course {
   @JoinColumn({ name: 'curriculum_id' })
   curriculum: CloudinaryFile;
 
-  @Column()
+  @Column('varchar', { name: 'tags', nullable: true })
   tags: string;
 
-  @Column()
+  @Column('varchar', { name: 'level', nullable: false })
   level: string;
 
-  @Column()
+  @Column('varchar', { name: 'demo_url', nullable: true })
   demoUrl: string;
 
   // @Column('jsonb')

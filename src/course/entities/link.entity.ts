@@ -7,10 +7,10 @@ export class Link {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column('varchar', { name: 'title', nullable: false })
   title: string;
 
-  @Column()
+  @Column('varchar', { name: 'url', nullable: false })
   url: string;
 
   @ManyToOne(() => CourseData, (courseData) => courseData.links)

@@ -1,16 +1,15 @@
 import { Module } from '@nestjs/common';
 
-import { ContactController } from './contact.controller';
-import { ContactService } from './contact.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Contact } from './entities/contact.entity';
-import { MailerModule } from './mailer.module';
+import { Contact } from './entities';
+import * as controllers from './controllers';
+import * as providers from './providers';
+import { SharedModule } from '../shared';
+
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Contact]),
-  MailerModule,
-],
-  controllers: [ContactController],
-  providers: [ContactService],
+  imports: [TypeOrmModule.forFeature([Contact]), SharedModule],
+  controllers: Object.values(controllers),
+  providers: Object.values(providers),
 })
 export class ContactModule {}

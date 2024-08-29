@@ -5,10 +5,16 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
 import { join } from 'path';
 
 import * as providers from './providers';
+import * as controllers from './controllers';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Email } from './mail/entities';
 
 @Global()
 @Module({
   imports: [
+    TypeOrmModule.forFeature([
+      Email
+    ]),
     MailerModule.forRootAsync({
       useFactory: (config: ConfigService) => ({
         transport: {
@@ -33,6 +39,7 @@ import * as providers from './providers';
       inject: [ConfigService],
     }),
   ],
+  controllers: Object.values(controllers),
   providers: Object.values(providers),
   exports: Object.values(providers),
 })

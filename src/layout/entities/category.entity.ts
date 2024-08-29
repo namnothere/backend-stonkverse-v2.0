@@ -1,18 +1,21 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, JoinColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToMany } from 'typeorm';
 
 import { Course } from '../../course/entities';
+import { Layout } from './layout.entity';
 
 @Entity({ name: 'category', schema: process.env.DB_SCHEMA || 'public' })
 export class Category {
   @PrimaryGeneratedColumn('uuid')
-  id?: string;
+  id: string;
 
-  @Column()
+  @Column('varchar', { name: 'title', nullable: false })
   title: string;
 
   @ManyToMany(() => Course, (course) => course.categories)
-  @JoinColumn({ name: 'courses' })
   courses: Course[];
+
+  @ManyToMany(() => Layout, layout => layout.categories)
+  layouts: Layout[];
 
   constructor(partial: Partial<Category>) {
     Object.assign(this, partial);

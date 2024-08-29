@@ -1,0 +1,1 @@
+export * from './cloudinary-file-output.dto';
