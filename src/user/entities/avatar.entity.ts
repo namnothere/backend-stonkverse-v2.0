@@ -16,7 +16,7 @@ export class Avatar {
   @OneToOne(() => User, (user) => user.avatar)
   user: User;
 
-  constructor(partial: Partial<User>) {
+  constructor(partial: Partial<Avatar>) {
     Object.assign(this, partial);
   }
 }

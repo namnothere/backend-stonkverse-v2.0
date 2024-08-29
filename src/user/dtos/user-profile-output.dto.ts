@@ -5,6 +5,9 @@ export class UserProfileOutput {
   id: string;
 
   @Expose()
+  name: string;
+
+  @Expose()
   username: string;
 
   @Expose()
