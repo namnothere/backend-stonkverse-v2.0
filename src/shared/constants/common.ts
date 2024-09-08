@@ -25,6 +25,9 @@ export const MESSAGES = {
 
   USER_DOES_NOT_OWN_COURSE: 'user does not own course',
   USER_ALREADY_OWN_COURSE: 'user already own course',
+
+  LAYOUT_NOT_FOUND: 'layout not found',
+  CONTACT_NOT_FOUND: 'contact not found',
 };
 
 export const ROLES_KEY = 'roles';

@@ -1,17 +1,15 @@
 import { Module } from '@nestjs/common';
-// import { CloudinaryProvider } from './cloudinary';
 import { ConfigService } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { v2 as cloudinary } from 'cloudinary';
 
 import * as controllers from './controllers';
+import { CloudinaryFile } from './entities';
 import { CloudinaryService } from './providers';
 import { CLOUDINARY } from '../shared/constants';
 
-// @Module({
-//   providers: [CloudinaryProvider, CloudinaryService],
-//   exports: [CloudinaryProvider, CloudinaryService],
-// })
 @Module({
+  imports: [TypeOrmModule.forFeature([CloudinaryFile])],
   providers: [
     {
       provide: CLOUDINARY,

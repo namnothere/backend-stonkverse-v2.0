@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOne } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOne, JoinColumn, ManyToMany, JoinTable } from 'typeorm';
 
 import { BannerImage } from './banner-image.entity';
 import { Category } from './category.entity';
@@ -18,14 +18,16 @@ export class Layout {
   @Column('varchar', { name: 'type', nullable: false })
   type: LAYOUT_TYPE;
 
-  @OneToMany(() => FaqItem, (faqItem) => faqItem)
+  @OneToMany(() => FaqItem, (faqItem) => faqItem.layout)
   faq: FaqItem[];
 
-  @OneToMany(() => Category, (category) => category)
+  @ManyToMany(() => Category, (category) => category.layouts)
+  @JoinTable({ name: 'layout_category', joinColumn: { name: 'layout_id' }, inverseJoinColumn: { name: 'category_id' } })
   categories: Category[];
 
   @ManyToOne(() => BannerImage, (bannerImage) => bannerImage)
-  image: BannerImage;
+  @JoinColumn({ name: 'banner_image_id' })
+  bannerImage: BannerImage;
 
   @Column('varchar', { name: 'title', nullable: false })
   title: string;

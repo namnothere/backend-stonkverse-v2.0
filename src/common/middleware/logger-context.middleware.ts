@@ -18,11 +18,13 @@ export class LoggerContextMiddleware implements NestMiddleware {
   public use(req: Request, _res: Response, next: () => void): void {
     const authorization = req.header('authorization');
 
-    const user = authorization.startsWith('Bearer') ? this.auth.getPayload(authorization.split(' ')[1]) : req.user;
+    const user = authorization && authorization.startsWith('Bearer') ? this.auth.getPayload(authorization.split(' ')[1]) : req.user;
 
-    const { userId } = user;
+    const { userId } = user || {};
+
     // for https://github.com/iamolegga/nestjs-pino/issues/608
     req.customProps = { userId };
+
     // Add extra fields to share in logger context
     this.logger.assign(req.customProps);
 

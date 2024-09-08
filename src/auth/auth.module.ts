@@ -9,7 +9,7 @@ import * as controllers from './controllers';
 import { AuthSerializer } from './interfaces';
 import * as providers from './providers';
 import * as strategies from './strategies';
-import { SharedModule } from '../shared/shared.module';
+import { SharedModule } from '../shared';
 import { User } from '../user/entities';
 
 @Global()

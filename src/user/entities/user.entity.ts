@@ -39,7 +39,7 @@ export class User {
   token: string;
 
   @OneToOne(() => Avatar, (avatar) => avatar.user, { cascade: true })
-  @JoinColumn()
+  @JoinColumn({ name: 'avatar_id' })
   avatar: Avatar;
 
   @Column('varchar', {

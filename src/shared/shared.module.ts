@@ -1,14 +1,18 @@
 import { Global, Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { join } from 'path';
 
+import * as controllers from './controllers';
+import { Email } from './mail/entities';
 import * as providers from './providers';
 
 @Global()
 @Module({
   imports: [
+    TypeOrmModule.forFeature([Email]),
     MailerModule.forRootAsync({
       useFactory: (config: ConfigService) => ({
         transport: {
@@ -33,6 +37,7 @@ import * as providers from './providers';
       inject: [ConfigService],
     }),
   ],
+  controllers: Object.values(controllers),
   providers: Object.values(providers),
   exports: Object.values(providers),
 })
