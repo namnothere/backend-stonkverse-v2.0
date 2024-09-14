@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
-import { CreateLearningprogressDto } from './dtos/create-learningprogress.dto';
-import { UpdateLearningprogressDto } from './dtos/update-learningprogress.dto';
+import { CreateLearningprogressDto, UpdateLearningprogressDto } from '../dtos';
 
 @Injectable()
 export class LearningprogressService {

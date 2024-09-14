@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { hash, compare } from 'bcryptjs';
-import { plainToClass } from 'class-transformer';
+import { plainToInstance } from 'class-transformer';
 import { BaseApiResponse, BasePaginationResponse } from 'src/shared/dtos';
 import { ILike, Repository } from 'typeorm';
 
@@ -31,7 +31,7 @@ export class UserAdminService {
       skip: input.skip,
       take: input.take,
     });
-    const output = plainToClass(UserProfileOutput, user, {
+    const output = plainToInstance(UserProfileOutput, user, {
       excludeExtraneousValues: true,
     });
 
@@ -46,7 +46,7 @@ export class UserAdminService {
       where: { id: userId },
     });
 
-    const output = plainToClass(UserProfileOutput, user, {
+    const output = plainToInstance(UserProfileOutput, user, {
       excludeExtraneousValues: true,
     });
 
@@ -63,7 +63,7 @@ export class UserAdminService {
     if (!user) {
       throw new NotFoundException(MESSAGES.USER_NOT_FOUND);
     }
-    const output = plainToClass(UserProfileOutput, user, {
+    const output = plainToInstance(UserProfileOutput, user, {
       excludeExtraneousValues: true,
     });
     return {
@@ -123,7 +123,7 @@ export class UserAdminService {
       },
     );
 
-    const output = plainToClass(UserProfileOutput, user, {
+    const output = plainToInstance(UserProfileOutput, user, {
       excludeExtraneousValues: true,
     });
 

@@ -8,17 +8,18 @@ import { LoggerModule } from 'nestjs-pino';
 import { AuthModule } from './auth';
 // import { BaseModule } from './base';
 import { CloudinaryModule } from './cloudinary';
-import { CommentModule } from './comment/comment.module';
+import { CommentModule } from './comment';
 import { CommonModule, ExceptionsFilter } from './common';
 import { configuration, loggerOptions } from './config';
-import { ContactModule } from './contact/contact.module';
-import { CourseModule } from './course/course.module';
-import { LayoutModule } from './layout/layout.module';
-import { LearningprogressModule } from './learningprogress/learningprogress.module';
-import { NotificationModule } from './notification/notification.module';
-import { OrderModule } from './order/order.module';
-import { RegisterCourseModule } from './register-course/register-course.module';
-import { UserModule } from './user/user.module';
+import { ContactModule } from './contact';
+import { CourseModule } from './course';
+import { LayoutModule } from './layout';
+import { LearningprogressModule } from './learningprogress';
+import { NotificationModule } from './notification';
+import { OrderModule } from './order';
+import { RegisterCourseModule } from './register-course';
+import { StripeModule } from './stripe';
+import { UserModule } from './user';
 
 @Module({
   imports: [
@@ -62,6 +63,8 @@ import { UserModule } from './user/user.module';
     CloudinaryModule,
     CommentModule,
     RegisterCourseModule,
+    // Payment
+    StripeModule,
   ],
   providers: [
     // Global Guard, Authentication check on all routers

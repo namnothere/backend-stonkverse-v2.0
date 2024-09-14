@@ -1,15 +1,14 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 
-import { CreateNotificationDto } from './dto/create-notification.dto';
-import { UpdateNotificationDto } from './dto/update-notification.dto';
-import { NotificationService } from './notification.service';
+import { CreateNotificationInput, UpdateNotificationInput } from '../dtos';
+import { NotificationService } from '../providers';
 
 @Controller('notification')
 export class NotificationController {
   constructor(private readonly notificationService: NotificationService) {}
 
   @Post()
-  create(@Body() createNotificationDto: CreateNotificationDto) {
+  create(@Body() createNotificationDto: CreateNotificationInput) {
     return this.notificationService.create(createNotificationDto);
   }
 
@@ -24,7 +23,7 @@ export class NotificationController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateNotificationDto: UpdateNotificationDto) {
+  update(@Param('id') id: string, @Body() updateNotificationDto: UpdateNotificationInput) {
     return this.notificationService.update(+id, updateNotificationDto);
   }
 

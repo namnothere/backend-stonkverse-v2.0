@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm';
 
 export enum EMAIL_STATUS {
   SUCCEED = 'SUCCEED',
@@ -27,6 +27,9 @@ export class Email {
 
   @Column('varchar', { name: 'status', nullable: false, default: EMAIL_STATUS.SUCCEED })
   status: string;
+
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt: Date;
 
   constructor(partial: Partial<Email>) {
     Object.assign(this, partial);

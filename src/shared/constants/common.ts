@@ -22,13 +22,19 @@ export const MESSAGES = {
   USER_ALREADY_VERIFIED: 'user already verified',
 
   COURSE_NOT_FOUND: 'course not found',
+  COURSE_ALREADY_REGISTERED: 'course already registered',
 
   USER_DOES_NOT_OWN_COURSE: 'user does not own course',
   USER_ALREADY_OWN_COURSE: 'user already own course',
 
   LAYOUT_NOT_FOUND: 'layout not found',
   CONTACT_NOT_FOUND: 'contact not found',
+
+  ORDER_NOT_FOUND: 'order not found',
+
+  PAYMENT_NOT_AUTHORIZED: 'payment not authorized',
 };
 
 export const ROLES_KEY = 'roles';
 export const CLOUDINARY = 'Cloudinary';
+export const STRIPE = 'Stripe';

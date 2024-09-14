@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import axios from 'axios';
-import { plainToClass } from 'class-transformer';
+import { plainToInstance } from 'class-transformer';
 import { ILike, Repository } from 'typeorm';
 
 import { CloudinaryFile, FILE_TYPE } from '../../cloudinary/entities';
@@ -26,7 +26,7 @@ export class CourseAdminService {
     if (!course) {
       throw new NotFoundException(MESSAGES.COURSE_NOT_FOUND);
     }
-    const output = plainToClass(CourseOutput, course, {
+    const output = plainToInstance(CourseOutput, course, {
       excludeExtraneousValues: true,
     });
 
@@ -37,6 +37,9 @@ export class CourseAdminService {
   }
 
   async createCourse(userId: string, input: CreateCourseInput): Promise<BaseApiResponse<CourseOutput>> {
+    const data: any = {
+      ...input,
+    };
     if (input.thumbnail) {
       const myCloud = await this.cloudinaryService.upload(input.thumbnail, {
         folder: 'courses',
@@ -47,7 +50,7 @@ export class CourseAdminService {
         public_id: myCloud.public_id,
       });
 
-      input.thumbnail = thumbnail as any;
+      data.thumbnail = thumbnail;
     }
 
     if (input.curriculum) {
@@ -62,11 +65,11 @@ export class CourseAdminService {
         type: FILE_TYPE.CURRICULUM,
       });
 
-      input.curriculum = curriculum as any;
+      data.curriculum = curriculum;
     }
 
-    const course = await this.courseRepo.save({ ...(input as any), createdBy: userId });
-    const output = plainToClass(CourseOutput, course, {
+    const course = await this.courseRepo.save({ ...data, createdBy: userId });
+    const output = plainToInstance(CourseOutput, course, {
       excludeExtraneousValues: true,
     });
 
@@ -98,7 +101,7 @@ export class CourseAdminService {
       },
     });
 
-    const output = plainToClass(CourseOutput, courses, {
+    const output = plainToInstance(CourseOutput, courses, {
       excludeExtraneousValues: true,
     });
 
@@ -144,12 +147,12 @@ export class CourseAdminService {
     }
 
     await this.courseRepo.update(course.id, { ...(input as any) });
-    const updatedCourse = {
+    const updatedCourse: any = {
       ...course,
-      ...(input as any),
+      ...input,
     };
 
-    const output = plainToClass(CourseOutput, updatedCourse, {
+    const output = plainToInstance(CourseOutput, updatedCourse, {
       excludeExtraneousValues: true,
     });
     return {
