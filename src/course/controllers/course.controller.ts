@@ -28,11 +28,6 @@ export class CourseController {
     return this.courseService.getCourseContent(ctx.user.id, courseId);
   }
 
-  @Get(':courseId/course-data/detail/:id')
-  getCourseContentDetail(@ReqContext() ctx: RequestContext, @Param('courseId') courseId: string, @Param('id') id: string) {
-    return this.courseService.getCourseContentDetail(ctx.user.id, courseId, id);
-  }
-
   @Get('my-courses')
   getMyCourses(@ReqContext() ctx: RequestContext) {
     return this.courseService.getMyCourses(ctx.user.id);

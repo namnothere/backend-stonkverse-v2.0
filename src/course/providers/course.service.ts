@@ -4,13 +4,15 @@ import { plainToInstance } from 'class-transformer';
 import { ILike, In, IsNull, Repository } from 'typeorm';
 
 import { Comment } from '../../comment/entities';
+import { CourseData } from '../../course-data/entities';
 import { Notification } from '../../notification/entities';
 import { RegisterCourse } from '../../register-course/entities';
 import { MESSAGES, RESULT_STATUS } from '../../shared/constants';
 import { BaseApiResponse, BasePaginationResponse } from '../../shared/dtos';
 import { User } from '../../user/entities';
 import { CourseFilterInput, CourseOutput, CreateQuestionInput } from '../dtos';
-import { AnswerQuiz, Course, CourseData } from '../entities';
+import { CourseDataOutput } from '../dtos/course-data-output.dto';
+import { AnswerQuiz, Course } from '../entities';
 
 @Injectable()
 export class CourseService {
@@ -81,7 +83,7 @@ export class CourseService {
     };
   }
 
-  async getCourseContent(userId: string, courseId: string) {
+  async getCourseContent(userId: string, courseId: string): Promise<BaseApiResponse<CourseDataOutput[]>> {
     const register = await this.registerCourseRepo.findOne({
       where: { user: { id: userId }, course: { id: courseId } },
       relations: {
@@ -95,36 +97,12 @@ export class CourseService {
       throw new NotFoundException(MESSAGES.COURSE_NOT_FOUND);
     }
 
-    const output = plainToInstance(CourseOutput, register.course.courseData, {
+    const output = plainToInstance(CourseDataOutput, register.course.courseData, {
       excludeExtraneousValues: true,
     });
 
     return {
-      data: output,
-    };
-  }
-
-  async getCourseContentDetail(userId: string, courseId: string, id: string) {
-    const register = await this.registerCourseRepo.findOne({
-      where: { user: { id: userId }, course: { id: courseId, courseData: { id } } },
-      relations: {
-        course: true,
-      },
-    });
-
-    if (!register) {
-      throw new NotFoundException(MESSAGES.COURSE_NOT_FOUND);
-    }
-
-    const courseData = await this.courseDataRepo.findOne({
-      where: { id },
-    });
-
-    const output = plainToInstance(CourseOutput, courseData, {
-      excludeExtraneousValues: true,
-    });
-
-    return {
+      status: RESULT_STATUS.SUCCEED,
       data: output,
     };
   }

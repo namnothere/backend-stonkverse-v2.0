@@ -23,6 +23,7 @@ export const MESSAGES = {
 
   COURSE_NOT_FOUND: 'course not found',
   COURSE_ALREADY_REGISTERED: 'course already registered',
+  COURSE_DATA_NOT_FOUND: 'course data not found',
 
   USER_DOES_NOT_OWN_COURSE: 'user does not own course',
   USER_ALREADY_OWN_COURSE: 'user already own course',
@@ -33,6 +34,9 @@ export const MESSAGES = {
   ORDER_NOT_FOUND: 'order not found',
 
   PAYMENT_NOT_AUTHORIZED: 'payment not authorized',
+
+  COMMENT_NOT_FOUND: 'comment not found',
+  PARENT_COMMENT_NOT_FOUND: 'parent comment not found',
 };
 
 export const ROLES_KEY = 'roles';

@@ -1,7 +1,7 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { BaseApiResponse } from 'src/shared/dtos';
 
 import { Public } from '../../common';
+import { BaseApiResponse } from '../../shared/dtos';
 import { CloudinaryFileOutput } from '../dtos';
 import { CloudinaryService } from '../providers';
 

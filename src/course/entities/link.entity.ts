@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 
-import { CourseData } from './course-data.entity';
+import { CourseData } from '../../course-data/entities/course-data.entity';
 
 @Entity({ name: 'link', schema: process.env.DB_SCHEMA || 'public' })
 export class Link {

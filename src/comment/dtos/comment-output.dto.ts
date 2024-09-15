@@ -1,23 +1,15 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { Expose } from 'class-transformer';
 
 export class CommentOutput {
-  @IsString()
-  @IsNotEmpty()
+  @Expose()
   title: string;
 
-  @IsString()
-  @IsNotEmpty()
+  @Expose()
   question: string;
 
-  @IsString()
-  @IsNotEmpty()
+  @Expose()
   courseId: string;
 
-  @IsString()
-  @IsNotEmpty()
+  @Expose()
   contentId: string;
-
-  constructor(partial: Partial<CommentOutput>) {
-    Object.assign(this, partial);
-  }
 }

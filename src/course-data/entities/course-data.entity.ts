@@ -1,9 +1,9 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany } from 'typeorm';
 
-import { Course } from './course.entity';
-import { Link } from './link.entity';
-import { QuestionQuiz } from './question-quiz.entity';
 import { Comment } from '../../comment/entities';
+import { Course } from '../../course/entities/course.entity';
+import { Link } from '../../course/entities/link.entity';
+import { QuestionQuiz } from '../../course/entities/question-quiz.entity';
 
 @Entity({ name: 'course_data', schema: process.env.DB_SCHEMA || 'public' })
 export class CourseData {

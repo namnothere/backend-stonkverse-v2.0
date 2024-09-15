@@ -13,6 +13,7 @@ import { CommonModule, ExceptionsFilter } from './common';
 import { configuration, loggerOptions } from './config';
 import { ContactModule } from './contact';
 import { CourseModule } from './course';
+import { CourseDataModule } from './course-data/course-data.module';
 import { LayoutModule } from './layout';
 import { LearningprogressModule } from './learningprogress';
 import { NotificationModule } from './notification';
@@ -65,6 +66,7 @@ import { UserModule } from './user';
     RegisterCourseModule,
     // Payment
     StripeModule,
+    CourseDataModule,
   ],
   providers: [
     // Global Guard, Authentication check on all routers

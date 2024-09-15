@@ -4,12 +4,12 @@ import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { hash, compare } from 'bcryptjs';
 import { plainToClass } from 'class-transformer';
-import { BaseApiResponse } from 'src/shared/dtos';
-import { makeId } from 'src/shared/utils';
 import { ILike, Repository } from 'typeorm';
 
 import { MESSAGES, RESULT_STATUS } from '../../shared/constants';
+import { BaseApiResponse } from '../../shared/dtos';
 import { MailService } from '../../shared/mail';
+import { makeId } from '../../shared/utils';
 import { User } from '../../user/entities';
 import { ActivateInput, AuthTokenOutput, RegisterInput, RegisterOutput, UserAccessTokenClaims } from '../dtos';
 import type { JwtPayload, JwtSign, Payload } from '../interfaces';
