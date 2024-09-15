@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
+import * as controllers from './controllers';
 import { LearningProgress } from './entities';
-import { LearningprogressController } from './learningprogress.controller';
-import { LearningprogressService } from './learningprogress.service';
+import * as providers from './providers';
 
 @Module({
   imports: [TypeOrmModule.forFeature([LearningProgress])],
-  controllers: [LearningprogressController],
-  providers: [LearningprogressService],
+  controllers: Object.values(controllers),
+  providers: Object.values(providers),
 })
 export class LearningprogressModule {}

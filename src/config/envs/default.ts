@@ -25,4 +25,5 @@ export const config = {
   CLD_CLOUD_NAME: process.env.CLD_CLOUD_NAME,
   CLD_API_KEY: process.env.CLD_API_KEY,
   CLD_API_SECRET: process.env.CLD_API_SECRET,
+  STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
 };

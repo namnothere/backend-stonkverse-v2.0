@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { plainToClass } from 'class-transformer';
+import { plainToInstance } from 'class-transformer';
 import { ILike, In, IsNull, Repository } from 'typeorm';
 
 import { Comment } from '../../comment/entities';
@@ -55,7 +55,7 @@ export class CourseService {
       },
     });
 
-    const output = plainToClass(CourseOutput, courses, {
+    const output = plainToInstance(CourseOutput, courses, {
       excludeExtraneousValues: true,
     });
 
@@ -72,7 +72,7 @@ export class CourseService {
       throw new NotFoundException(MESSAGES.COURSE_NOT_FOUND);
     }
 
-    const output = plainToClass(CourseOutput, course, {
+    const output = plainToInstance(CourseOutput, course, {
       excludeExtraneousValues: true,
     });
     return {
@@ -95,7 +95,7 @@ export class CourseService {
       throw new NotFoundException(MESSAGES.COURSE_NOT_FOUND);
     }
 
-    const output = plainToClass(CourseOutput, register.course.courseData, {
+    const output = plainToInstance(CourseOutput, register.course.courseData, {
       excludeExtraneousValues: true,
     });
 
@@ -120,7 +120,7 @@ export class CourseService {
       where: { id },
     });
 
-    const output = plainToClass(CourseOutput, courseData, {
+    const output = plainToInstance(CourseOutput, courseData, {
       excludeExtraneousValues: true,
     });
 
@@ -211,7 +211,7 @@ export class CourseService {
       throw new NotFoundException(MESSAGES.USER_NOT_FOUND);
     }
 
-    const output = plainToClass(CourseOutput, user.registeredCourses, {
+    const output = plainToInstance(CourseOutput, user.registeredCourses, {
       excludeExtraneousValues: true,
     });
 

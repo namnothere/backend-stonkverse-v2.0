@@ -77,7 +77,7 @@ export class LayoutAdminService {
 
     const updated: any = {};
 
-    if (input.categories && input.type == LAYOUT_TYPE.CATEGORIES) {
+    if (input.categories && input.type === LAYOUT_TYPE.CATEGORIES) {
       const categoryTitles = input.categories.map((category) => category.title);
       const categories = await this.categoryRepo.find({ where: { title: In(categoryTitles) } });
       const existingTitles = new Set(categories.map((category) => category.title));
@@ -89,7 +89,7 @@ export class LayoutAdminService {
       updated.categories = [...categories, ...newCategories];
     }
 
-    if (input.faq && input.type == LAYOUT_TYPE.FAQ) {
+    if (input.faq && input.type === LAYOUT_TYPE.FAQ) {
       const faqQuestions = input.faq.map((faq) => faq.question);
       const faqItems = layout.faq;
       const existingQuestions = new Set(faqItems.map((faq) => faq.question));
@@ -101,7 +101,7 @@ export class LayoutAdminService {
       updated.faq = [...faqItems, ...newFaqItems];
     }
 
-    if (input.bannerImage && input.type == LAYOUT_TYPE.BANNER) {
+    if (input.bannerImage && input.type === LAYOUT_TYPE.BANNER) {
       const where: any = {
         public_id: input.bannerImage.public_id,
       };

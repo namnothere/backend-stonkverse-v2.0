@@ -1,11 +1,10 @@
 import { Injectable } from '@nestjs/common';
 
-import { CreateRegisterCourseDto } from '../dtos/create-register-course.dto';
-import { UpdateRegisterCourseDto } from '../dtos/update-register-course.dto';
+import { CreateRegisterCourseInput, UpdateRegisterCourseInput } from '../dtos';
 
 @Injectable()
 export class RegisterCourseService {
-  create(createRegisterCourseDto: CreateRegisterCourseDto) {
+  create(input: CreateRegisterCourseInput) {
     return 'This action adds a new registerCourse';
   }
 
@@ -13,15 +12,15 @@ export class RegisterCourseService {
     return `This action returns all registerCourse`;
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return `This action returns a #${id} registerCourse`;
   }
 
-  update(id: number, updateRegisterCourseDto: UpdateRegisterCourseDto) {
+  update(id: string, input: UpdateRegisterCourseInput) {
     return `This action updates a #${id} registerCourse`;
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} registerCourse`;
   }
 }

@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MailerService } from '@nestjs-modules/mailer';
-import { plainToClass } from 'class-transformer';
+import { plainToInstance } from 'class-transformer';
 import { join } from 'path';
 import { Repository } from 'typeorm';
 
 import { Contact } from '../../../contact/entities';
+import { Order } from '../../../order/entities';
 import { User } from '../../../user/entities';
 import { RESULT_STATUS } from '../../constants';
 import { BaseApiResponse } from '../../dtos';
@@ -58,7 +59,7 @@ export class MailService {
     return true;
   }
 
-  async sendSupportRequest(contact: Contact) {
+  sendSupportRequest(contact: Contact) {
     const context = {
       email: contact.email,
       problem: contact.problem,
@@ -74,7 +75,7 @@ export class MailService {
     if (isDevelopment) {
       const emails = await this.emailRepo.find();
 
-      const output = plainToClass(EmailOutput, emails, {
+      const output = plainToInstance(EmailOutput, emails, {
         excludeExtraneousValues: true,
       });
 
@@ -91,4 +92,14 @@ export class MailService {
   }
 
   // TODO: email template
+  async sendOrderConfirmation(order: Order) {
+    const context = {
+      created_at: order.createdAt,
+      course_name: order.course.name,
+      total: order.total,
+      order_id: order.id,
+    };
+    this.sendMail(order.user.email, 'Order Confirmation', 'order-confirmation', context).then();
+    return true;
+  }
 }
