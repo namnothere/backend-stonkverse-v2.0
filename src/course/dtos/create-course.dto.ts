@@ -1,5 +1,6 @@
 import { Transform, Type } from 'class-transformer';
-import { IsNumber, IsString } from 'class-validator';
+import { IsArray, IsNumber, IsOptional, IsString, ValidateNested } from 'class-validator';
+import { CreateCourseDatumInput } from '../../course-data/dtos';
 
 export enum COURSE_LEVEL {
   BEGINNER = 'Beginner',
@@ -38,6 +39,12 @@ export class CreateCourseInput {
 
   @IsString()
   curriculum: string;
+
+  @IsArray()
+  @IsOptional()
+  @ValidateNested({ each: true })
+  @Type(() => CreateCourseDatumInput)
+  courseData: CreateCourseDatumInput[];
 
   constructor(partial: Partial<CreateCourseInput>) {
     Object.assign(this, partial);

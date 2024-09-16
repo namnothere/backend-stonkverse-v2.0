@@ -16,12 +16,12 @@ export class CreateCommentInput {
   parentId: string;
 
   @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   courseId: string;
 
   @IsString()
-  @IsNotEmpty()
-  contentId: string;
+  @IsOptional()
+  contentId: string; // CourseData
 
   @IsString()
   @IsNotEmpty()

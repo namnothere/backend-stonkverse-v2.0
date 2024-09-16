@@ -1,9 +1,9 @@
 import { Expose, Type } from 'class-transformer';
 
 import { CourseOutput } from './course-output.dto';
-import { LinkOutput } from './link-output.dto';
 import { QuestionQuizOutput } from './question-quiz-output.dto';
 import { CommentOutput } from '../../comment/dtos';
+import { LinkOutput } from '../../course-data/dtos';
 
 export class CourseDataOutput {
   @Expose()

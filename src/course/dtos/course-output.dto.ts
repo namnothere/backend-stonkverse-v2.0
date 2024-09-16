@@ -1,6 +1,5 @@
 import { Expose, Transform, Type } from 'class-transformer';
-
-import { CloudinaryFileOutput } from '../../cloudinary/dtos/cloudinary-file-output.dto';
+import { CloudinaryFileOutput } from '../../cloudinary/dtos';
 
 export class CourseOutput {
   @Expose()

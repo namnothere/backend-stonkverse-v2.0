@@ -15,6 +15,9 @@ export class QuestionQuiz {
   @Column('json', { name: 'correct_answers', nullable: true })
   correctAnswers: string;
 
+  @Column('json', { name: 'mock_answers', nullable: true })
+  mockAnswers: string;
+
   @ManyToOne(() => CourseData, (courseData) => courseData.quizzes)
   courseData: CourseData;
 

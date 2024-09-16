@@ -199,19 +199,19 @@ export class CourseService {
     };
   }
 
-  async createQuestion(userId: string, input: CreateQuestionInput): Promise<BaseApiResponse<null>> {
-    const register = await this.registerCourseRepo.findOne({ where: { user: { id: userId } }, relations: { user: true } });
-    if (!register) {
-      throw new BadRequestException(MESSAGES.USER_DOES_NOT_OWN_COURSE);
-    }
+  // async createQuestion(userId: string, input: CreateQuestionInput): Promise<BaseApiResponse<null>> {
+  //   const register = await this.registerCourseRepo.findOne({ where: { user: { id: userId } }, relations: { user: true } });
+  //   if (!register) {
+  //     throw new BadRequestException(MESSAGES.USER_DOES_NOT_OWN_COURSE);
+  //   }
 
-    const comment = await this.commentRepo.save({ ...input, user: { id: userId } });
+  //   const comment = await this.commentRepo.save({ ...input, user: { id: userId } });
 
-    await this.notificationRepo.save({ ...input, user: { id: userId } });
+  //   await this.notificationRepo.save({ ...input, user: { id: userId } });
 
-    return {
-      status: RESULT_STATUS.SUCCEED,
-      data: null,
-    };
-  }
+  //   return {
+  //     status: RESULT_STATUS.SUCCEED,
+  //     data: null,
+  //   };
+  // }
 }

@@ -8,7 +8,8 @@ import { MESSAGES, RESULT_STATUS } from '../../shared/constants';
 import { BaseApiResponse, BasePaginationResponse } from '../../shared/dtos';
 import { User } from '../../user/entities';
 import { CommentFilterInput, CommentOutput, CreateCommentInput, UpdateCommentInput } from '../dtos';
-import { Comment, COMMENT_STATUS } from '../entities';
+import { Comment, COMMENT_STATUS, COMMENT_TYPE } from '../entities';
+import { RegisterCourse } from '../../register-course/entities';
 
 @Injectable()
 export class CommentService {
@@ -19,6 +20,8 @@ export class CommentService {
     private readonly userRepo: Repository<User>,
     @InjectRepository(CourseData)
     private readonly courseDataRepo: Repository<CourseData>,
+    @InjectRepository(RegisterCourse)
+    private readonly registerCourseRepo: Repository<RegisterCourse>,
   ) {}
 
   async create(userId: string, input: CreateCommentInput): Promise<BaseApiResponse<CommentOutput>> {
@@ -30,18 +33,37 @@ export class CommentService {
       throw new NotFoundException(MESSAGES.COURSE_DATA_NOT_FOUND);
     }
 
+    const register = await this.registerCourseRepo.findOne({
+      where: { user: { id: userId }, course: { id: input.courseId } },
+      relations: ['course', 'user'],
+    });
+
+    if (!register) {
+      throw new NotFoundException(MESSAGES.USER_DOES_NOT_OWN_COURSE);
+    }
+
     const newComment: any = {
       ...input,
     };
 
-    if (input.parentId) {
-      const parentComment = await this.commentRepo.findOne({
-        where: { id: input.parentId },
-      });
-      if (!parentComment) {
-        throw new NotFoundException(MESSAGES.PARENT_COMMENT_NOT_FOUND);
-      }
-      newComment.parentComment = parentComment;
+    switch (input.commentType) {
+      case COMMENT_TYPE.REVIEW_REPLY:
+      case COMMENT_TYPE.QUESTION_REPLY:
+        if (!input.parentId) {
+          throw new NotFoundException(MESSAGES.PARENT_COMMENT_NOT_FOUND);
+        }
+        const parentComment = await this.commentRepo.findOne({
+          where: { id: input.parentId },
+        });
+        if (!parentComment) {
+          throw new NotFoundException(MESSAGES.PARENT_COMMENT_NOT_FOUND);
+        }
+        newComment.parentComment = parentComment;
+        break;
+      case COMMENT_TYPE.REVIEW:
+      case COMMENT_TYPE.QUESTION:
+      default:
+        break;
     }
 
     const comment = await this.commentRepo.save({
