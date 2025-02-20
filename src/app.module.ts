@@ -21,6 +21,7 @@ import { OrderModule } from './order';
 import { RegisterCourseModule } from './register-course';
 import { StripeModule } from './stripe';
 import { UserModule } from './user';
+import { PromotionCodeModule } from './promotion-code';
 
 @Module({
   imports: [
@@ -67,6 +68,7 @@ import { UserModule } from './user';
     // Payment
     StripeModule,
     CourseDataModule,
+    PromotionCodeModule
   ],
   providers: [
     // Global Guard, Authentication check on all routers

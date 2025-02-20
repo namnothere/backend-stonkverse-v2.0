@@ -37,6 +37,9 @@ export const MESSAGES = {
 
   COMMENT_NOT_FOUND: 'comment not found',
   PARENT_COMMENT_NOT_FOUND: 'parent comment not found',
+
+  PROMOTION_CODE_EXPIRED: 'Promotion code has expired',
+  PROMOTION_CODE_INVALID: 'Promotion code is invalid',
 };
 
 export const ROLES_KEY = 'roles';

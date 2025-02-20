@@ -5,7 +5,7 @@ import { ReqContext } from '../../shared/request-context/req-context.decorator';
 import { RequestContext } from '../../shared/request-context/request-context.dto';
 import { CourseFilterInput, CreateCourseInput, UpdateCourseInput } from '../dtos';
 import { CourseOwnerService } from '../providers';
-import { Roles } from '../..//common';
+import { Roles } from '../../common';
 import { USER_ROLE } from '../../user/entities';
 
 @UseGuards(RolesGuard)
