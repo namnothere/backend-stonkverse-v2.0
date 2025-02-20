@@ -6,9 +6,13 @@ import { BasePaginationResponse, PaginationParamsDto } from '../../shared/dtos';
 import { ReqContext, RequestContext } from '../../shared/request-context';
 import { UpdateCourseDatumInput } from '../dtos';
 import { CourseDataService } from '../providers';
+import { RolesGuard } from '../../auth';
+import { Roles } from 'src/common';
+import { USER_ROLE } from 'src/user/entities';
 
 @Controller('admin/course-data')
-@UseGuards(JwtAuthAdminGuard)
+@UseGuards(JwtAuthAdminGuard, RolesGuard)
+@Roles(USER_ROLE.INSTRUCTOR)
 export class CourseDataController {
   constructor(private readonly courseDataService: CourseDataService) {}
 
