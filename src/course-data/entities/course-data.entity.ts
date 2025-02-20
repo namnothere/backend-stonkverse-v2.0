@@ -5,6 +5,8 @@ import { Course } from '../../course/entities/course.entity';
 import { Link } from '../../course/entities/link.entity';
 import { QuestionQuiz } from '../../course/entities/question-quiz.entity';
 
+// video or quizz question
+// Final test questions
 @Entity({ name: 'course_data', schema: process.env.DB_SCHEMA || 'public' })
 export class CourseData {
   @PrimaryGeneratedColumn('uuid')
@@ -35,7 +37,7 @@ export class CourseData {
   // videoPlayer: string;
 
   @OneToMany(() => Link, (link) => link.courseData)
-  links: Link[];
+  links: Link[]; // link video
 
   // @Column()
   // suggestion: string;
