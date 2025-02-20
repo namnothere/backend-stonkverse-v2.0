@@ -1,26 +1,161 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { plainToInstance } from 'class-transformer';
+import { ILike, Repository } from 'typeorm';
 
-import { CreateCommentDto, UpdateCommentDto } from '../dtos';
+import { CourseData } from '../../course-data/entities';
+import { MESSAGES, RESULT_STATUS } from '../../shared/constants';
+import { BaseApiResponse, BasePaginationResponse } from '../../shared/dtos';
+import { User } from '../../user/entities';
+import { CommentFilterInput, CommentOutput, CreateCommentInput, UpdateCommentInput } from '../dtos';
+import { Comment, COMMENT_STATUS, COMMENT_TYPE } from '../entities';
+import { RegisterCourse } from '../../register-course/entities';
 
 @Injectable()
 export class CommentService {
-  create(createCommentDto: CreateCommentDto) {
-    return 'This action adds a new comment';
+  constructor(
+    @InjectRepository(Comment)
+    private readonly commentRepo: Repository<Comment>,
+    @InjectRepository(User)
+    private readonly userRepo: Repository<User>,
+    @InjectRepository(CourseData)
+    private readonly courseDataRepo: Repository<CourseData>,
+    @InjectRepository(RegisterCourse)
+    private readonly registerCourseRepo: Repository<RegisterCourse>,
+  ) {}
+
+  async create(userId: string, input: CreateCommentInput): Promise<BaseApiResponse<CommentOutput>> {
+    const courseData = await this.courseDataRepo.findOne({
+      where: { id: input.contentId },
+    });
+
+    if (!courseData) {
+      throw new NotFoundException(MESSAGES.COURSE_DATA_NOT_FOUND);
+    }
+
+    const register = await this.registerCourseRepo.findOne({
+      where: { user: { id: userId }, course: { id: input.courseId } },
+      relations: ['course', 'user'],
+    });
+
+    if (!register) {
+      throw new NotFoundException(MESSAGES.USER_DOES_NOT_OWN_COURSE);
+    }
+
+    const newComment: any = {
+      ...input,
+    };
+
+    switch (input.commentType) {
+      case COMMENT_TYPE.REVIEW_REPLY:
+      case COMMENT_TYPE.QUESTION_REPLY:
+        if (!input.parentId) {
+          throw new NotFoundException(MESSAGES.PARENT_COMMENT_NOT_FOUND);
+        }
+        const parentComment = await this.commentRepo.findOne({
+          where: { id: input.parentId },
+        });
+        if (!parentComment) {
+          throw new NotFoundException(MESSAGES.PARENT_COMMENT_NOT_FOUND);
+        }
+        newComment.parentComment = parentComment;
+        break;
+      case COMMENT_TYPE.REVIEW:
+      case COMMENT_TYPE.QUESTION:
+      default:
+        break;
+    }
+
+    const comment = await this.commentRepo.save({
+      ...newComment,
+      user: { id: userId },
+      courseData: { id: courseData.id },
+    });
+
+    const output = plainToInstance(CommentOutput, comment, {
+      excludeExtraneousValues: true,
+    });
+
+    return {
+      status: RESULT_STATUS.SUCCEED,
+      data: output,
+    };
   }
 
-  findAll() {
-    return `This action returns all comment`;
+  async filter(userId: string, input: CommentFilterInput): Promise<BasePaginationResponse<CommentOutput>> {
+    const where: any = [];
+
+    if (input.keyword) {
+      where.push({
+        content: ILike(`%${input.keyword}%`),
+      });
+      where.push({
+        user: {
+          name: ILike(`%${input.keyword}%`),
+        },
+      });
+      where.push({
+        courseData: {
+          name: ILike(`%${input.keyword}%`),
+        },
+      });
+    }
+
+    if (input.courseId) {
+      where.map((item) => {
+        item.courseData = { id: input.courseId };
+      });
+    }
+
+    where.map((item) => {
+      item.user = { id: userId };
+      item.status = COMMENT_STATUS.ACTIVE;
+    });
+
+    const [comments, count] = await this.commentRepo.findAndCount({
+      where,
+      relations: ['user', 'courseData'],
+      skip: input.offset,
+      take: input.limit,
+    });
+
+    const output = plainToInstance(CommentOutput, comments, {
+      excludeExtraneousValues: true,
+    });
+
+    return {
+      listData: output,
+      total: count,
+    };
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return `This action returns a #${id} comment`;
   }
 
-  update(id: number, updateCommentDto: UpdateCommentDto) {
+  update(id: string, input: UpdateCommentInput) {
     return `This action updates a #${id} comment`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} comment`;
+  async remove(userId: string, id: string): Promise<BaseApiResponse<CommentOutput>> {
+    const comment = await this.commentRepo.findOne({
+      where: { id, user: { id: userId } },
+      relations: ['user'],
+    });
+
+    if (!comment) {
+      throw new NotFoundException(MESSAGES.COMMENT_NOT_FOUND);
+    }
+
+    await this.commentRepo.softDelete({ id });
+
+    const output = plainToInstance(CommentOutput, comment, {
+      excludeExtraneousValues: true,
+    });
+
+    return {
+      status: RESULT_STATUS.SUCCEED,
+      data: output,
+    };
   }
 }

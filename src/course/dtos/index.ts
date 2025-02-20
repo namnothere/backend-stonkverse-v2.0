@@ -3,6 +3,4 @@ export * from './update-course.dto';
 export * from './course-output.dto';
 export * from './course-filter.dto';
 export * from './create-question.dto';
-export * from '../../cloudinary/dtos/cloudinary-file-output.dto';
-export * from './link-output.dto';
 export * from './question-quiz-output.dto';

@@ -1,7 +1,8 @@
 import { Expose, Type } from 'class-transformer';
-import { UserProfileOutput } from 'src/user/dtos';
 
 import { QuestionQuizOutput } from './question-quiz-output.dto';
+import { UserProfileOutput } from '../../user/dtos';
+
 // import { CourseDataOutput } from './course-data-output.dto';
 // import { CourseOutput } from './course-output.dto';
 

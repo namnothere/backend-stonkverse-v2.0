@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { plainToClass } from 'class-transformer';
-import { BaseApiResponse } from 'src/shared/dtos';
 import { Repository } from 'typeorm';
 
 import { RESULT_STATUS } from '../../shared/constants';
+import { BaseApiResponse } from '../../shared/dtos';
 import { MailService } from '../../shared/mail';
 import { ContactOutput, CreateContactInput } from '../dtos';
 import { Contact } from '../entities';

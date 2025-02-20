@@ -8,11 +8,12 @@ import { join } from 'path';
 import * as controllers from './controllers';
 import { Email } from './mail/entities';
 import * as providers from './providers';
+import { User } from '../user/entities';
 
 @Global()
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Email]),
+    TypeOrmModule.forFeature([Email, User]),
     MailerModule.forRootAsync({
       useFactory: (config: ConfigService) => ({
         transport: {

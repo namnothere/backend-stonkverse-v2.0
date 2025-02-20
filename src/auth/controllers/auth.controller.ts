@@ -1,6 +1,6 @@
 import { Controller, Get, Post, UseGuards, UnauthorizedException, Body, Param } from '@nestjs/common';
-import { RESULT_STATUS } from 'src/shared/constants';
 
+import { RESULT_STATUS } from '../../shared/constants';
 import { BaseApiResponse } from '../../shared/dtos';
 import { MailService } from '../../shared/mail';
 import { ReqContext } from '../../shared/request-context/req-context.decorator';

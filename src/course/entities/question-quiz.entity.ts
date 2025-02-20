@@ -1,8 +1,8 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany } from 'typeorm';
 
 import { AnswerQuiz } from './answer-quiz.entity';
-import { CourseData } from './course-data.entity';
 import { Course } from './course.entity';
+import { CourseData } from '../../course-data/entities/course-data.entity';
 
 @Entity({ name: 'question_quiz', schema: process.env.DB_SCHEMA || 'public' })
 export class QuestionQuiz {
@@ -14,6 +14,9 @@ export class QuestionQuiz {
 
   @Column('json', { name: 'correct_answers', nullable: true })
   correctAnswers: string;
+
+  @Column('json', { name: 'mock_answers', nullable: true })
+  mockAnswers: string;
 
   @ManyToOne(() => CourseData, (courseData) => courseData.quizzes)
   courseData: CourseData;

@@ -2,11 +2,12 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import * as controllers from './controllers';
-import { AnswerQuiz, Course, CourseData, Link, QuestionQuiz } from './entities';
+import { AnswerQuiz, Course, Link, QuestionQuiz } from './entities';
 import * as providers from './providers';
 import { CloudinaryModule } from '../cloudinary';
 import { CloudinaryFile } from '../cloudinary/entities';
 import { Comment } from '../comment/entities';
+import { CourseData } from '../course-data/entities';
 import { Notification } from '../notification/entities';
 import { RegisterCourse } from '../register-course/entities';
 import { User } from '../user/entities';

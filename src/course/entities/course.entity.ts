@@ -11,10 +11,10 @@ import {
   JoinColumn,
 } from 'typeorm';
 
-import { CourseData } from './course-data.entity';
 import { QuestionQuiz } from './question-quiz.entity';
 import { CloudinaryFile } from '../../cloudinary/entities/file.entity';
 import { Comment } from '../../comment/entities';
+import { CourseData } from '../../course-data/entities/course-data.entity';
 import { Category } from '../../layout/entities';
 
 @Entity({ name: 'course', schema: process.env.DB_SCHEMA || 'public' })

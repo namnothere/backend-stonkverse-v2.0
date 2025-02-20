@@ -1,6 +1,16 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  OneToMany,
+  CreateDateColumn,
+  UpdateDateColumn,
+  DeleteDateColumn,
+} from 'typeorm';
 
-import { Course, CourseData } from '../../course/entities';
+import { Course } from '../../course/entities';
+import { CourseData } from '../../course-data/entities';
 import { User } from '../../user/entities';
 
 export enum COMMENT_TYPE {
@@ -8,6 +18,12 @@ export enum COMMENT_TYPE {
   QUESTION = 'QUESTION',
   REVIEW_REPLY = 'REVIEW_REPLY',
   QUESTION_REPLY = 'QUESTION_REPLY',
+}
+
+export enum COMMENT_STATUS {
+  ACTIVE = 'ACTIVE',
+  HIDDEN = 'HIDDEN',
+  FLAGGED = 'FLAGGED',
 }
 
 @Entity({ name: 'comment', schema: process.env.DB_SCHEMA || 'public' })
@@ -21,6 +37,13 @@ export class Comment {
     nullable: false,
   })
   commentType: COMMENT_TYPE;
+
+  @Column('varchar', {
+    name: 'status',
+    default: COMMENT_STATUS.ACTIVE,
+    nullable: false,
+  })
+  status: COMMENT_STATUS;
 
   @ManyToOne(() => User, (user) => user.comments)
   user: User;
@@ -51,6 +74,9 @@ export class Comment {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @DeleteDateColumn()
+  deletedAt: Date;
 
   constructor(partial: Partial<Comment>) {
     Object.assign(this, partial);

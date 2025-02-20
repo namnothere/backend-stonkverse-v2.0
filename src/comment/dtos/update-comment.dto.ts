@@ -1,5 +1,5 @@
 import { PartialType } from '@nestjs/swagger';
 
-import { CreateCommentDto } from './create-comment.dto';
+import { CreateCommentInput } from './create-comment-input.dto';
 
-export class UpdateCommentDto extends PartialType(CreateCommentDto) {}
+export class UpdateCommentInput extends PartialType(CreateCommentInput) {}
